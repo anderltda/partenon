@@ -1,0 +1,438 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:util="http://java.sun.com/jsf/composite/util"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:project="http://project.com.br/tags"
+	template="/WEB-INF/cadastro/template.xhtml">
+
+	<ui:define name="title"><i class="fa fa-building-o"></i> #{msgs.tit_filial}</ui:define>
+
+	<ui:define name="content">
+
+		<h:form id="form" enctype="multipart/form-data">
+
+			<script type="text/javascript">
+				$(document).ready(function() {
+					$("#form\\:lbl_sigla").focus();			
+				});
+			</script>
+
+			<section class="content">
+				<div class="box">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="box-body">
+								<div class="col-md-12">
+									<h:outputLabel value="#{msgs.lbl_sigla}" for="lbl_sigla" />
+									<div class="input-group">
+										<p:inputText id="lbl_sigla" styleClass="field-uppercase" maxlength="3" value="#{filialView.bean.sigla}" disabled="#{filialView.disabled}" required="true" label="#{msgs.lbl_sigla}">
+											<f:validateLength minimum="2" maximum="3" />
+											<pe:keyFilter regEx="/[ABC]/i" />
+										</p:inputText>
+									</div>
+								</div>
+								<div class="col-md-5">
+									<h:outputLabel value="#{msgs.lbl_cnpj}" for="lbl_cnpj" />
+									<div class="input-group">
+										<div class="input-group-addon">
+											<i class="fa fa-building-o"></i>
+										</div>
+										<p:inputMask mask="99.999.999/9999-99" id="lbl_cnpj" value="#{filialView.bean.cnpj}" disabled="#{filialView.disabled}" required="false" label="#{msgs.lbl_cnpj}" />
+									</div>
+								</div>
+								<div class="col-md-9">
+									<h:outputLabel value="#{msgs.lbl_responsavel}" for="lbl_responsavel" />
+									<div class="input-group">
+										<div class="input-group-addon">
+											<i class="fa fa-user"></i>
+										</div>
+										<p:inputText id="lbl_responsavel" value="#{filialView.bean.responsavel}" disabled="#{filialView.disabled}" maxlength="100" required="false" label="#{msgs.lbl_responsavel}" />
+									</div>
+								</div>
+								<div class="col-md-3">
+									<h:outputLabel value="#{msgs.lbl_categoria}" for="lbl_categoria" />
+									<div class="input-group">
+										<p:selectOneMenu id="lbl_categoria" style="width: 100px;" value="#{filialView.bean.categoria}" disabled="#{filialView.disabled}" required="true" label="#{msgs.lbl_categoria}">
+											<f:selectItem itemLabel="" itemValue="" />
+											<f:selectItems value="#{filialView.categoriasFiliais}" var="categoria" itemLabel="#{categoria.label}" itemValue="#{categoria.value}" />
+										</p:selectOneMenu>
+									</div>
+								</div>
+								<div class="col-md-12">
+									<h:outputLabel value="#{msgs.lbl_razao_social}" for="lbl_razao_social" />
+									<div class="input-group">
+										<div class="input-group-addon">
+											<i class="fa fa-bars"></i>
+										</div>
+										<p:inputText id="lbl_razao_social" value="#{filialView.bean.razaoSocial}" disabled="#{filialView.disabled}" required="true" label="#{msgs.lbl_razao_social}">
+											<f:validateLength minimum="10" maximum="200" />
+											<p:ajax event="blur" update=":form:lbl_nome_fantasia" listener="#{filialView.preencherNomeFantasia}" />
+										</p:inputText>
+									</div>
+								</div>
+								<div class="col-md-12">
+									<h:outputLabel value="#{msgs.lbl_nome_fantasia}" for="lbl_nome_fantasia" />
+									<div class="input-group">
+										<div class="input-group-addon">
+											<i class="fa fa-bars"></i>
+										</div>
+										<p:inputText id="lbl_nome_fantasia" value="#{filialView.bean.nomeFantasia}" disabled="#{filialView.disabled}" required="true" label="#{msgs.lbl_nome_fantasia}">
+											<f:validateLength minimum="10" maximum="200" />
+										</p:inputText>
+									</div>
+								</div>
+								<p:outputPanel id="endereco">
+									<div class="col-md-3">
+										<h:outputLabel value="#{msgs.lbl_cep}" for="lbl_cep" />
+										<div class="input-group input-group-sm">
+											<p:inputMask mask="99999-999" id="lbl_cep" value="#{filialView.bean.endereco.cep}" disabled="#{filialView.disabled}" required="false" label="#{msgs.lbl_cep}">
+												<p:ajax event="blur" update=":form:endereco" listener="#{filialView.handleBlurEventSearchCep}" oncomplete="config.tabChangeEvent();" />
+											</p:inputMask>
+											<span class="input-group-btn"> 
+												<p:commandButton value="" styleClass="btn btn-default btn-sm fa fa-binoculars" disabled="#{filialView.disabled}" immediate="true" modal="#singleDialogEndereco" /> 
+											</span>
+										</div>
+									</div>
+									<div class="col-md-8">
+										<h:outputLabel value="#{msgs.lbl_logradouro}"
+											for="lbl_logradouro" />
+										<div class="input-group">
+											<div class="input-group-addon">
+												<i class="fa fa-bars"></i>
+											</div>
+											<p:inputText id="lbl_logradouro" maxlength="200" value="#{filialView.bean.endereco.logradouro}" disabled="#{filialView.disabled}" required="false" label="#{msgs.lbl_logradouro}" />
+										</div>
+									</div>
+									<div class="col-md-1">
+										<h:outputLabel value="#{msgs.lbl_numero}" for="lbl_numero" />
+										<div class="input-group">
+											<p:inputText id="lbl_numero" maxlength="7" value="#{filialView.bean.endereco.numero}" disabled="#{filialView.disabled}" required="false" label="#{msgs.lbl_numero}">
+												<pe:keyFilter regEx="/[0-9_]/i" />
+											</p:inputText>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<h:outputLabel value="#{msgs.lbl_complemento}" for="lbl_complemento" />
+										<div class="input-group">
+											<div class="input-group-addon">
+												<i class="fa fa-bars"></i>
+											</div>
+											<p:inputText id="lbl_complemento" value="#{filialView.bean.endereco.complemento}" disabled="#{filialView.disabled}" required="false" label="#{msgs.lbl_complemento}" />
+										</div>
+									</div>
+									<div class="col-md-5">
+										<h:outputLabel value="#{msgs.lbl_bairro}" for="lbl_bairro" />
+										<div class="input-group">
+											<div class="input-group-addon">
+												<i class="fa fa-bars"></i>
+											</div>
+											<p:inputText id="lbl_bairro" value="#{filialView.bean.endereco.bairro}" disabled="#{filialView.disabled}" required="false" label="#{msgs.lbl_bairro}" />
+										</div>
+									</div>
+									<div class="col-md-6">
+										<h:outputLabel value="#{msgs.lbl_cidade}" for="lbl_cidade" />
+										<div class="input-group">
+											<div class="input-group-addon">
+												<i class="fa fa-bars"></i>
+											</div>
+											<p:inputText id="lbl_cidade" value="#{filialView.bean.endereco.cidade}" disabled="#{filialView.disabled}" required="false" label="#{msgs.lbl_cidade}" />
+										</div>
+									</div>
+									<div class="col-md-3">
+										<h:outputLabel value="#{msgs.lbl_estado}" for="lbl_estado" />
+										<div class="input-group">
+											<p:selectOneMenu id="lbl_estado" value="#{filialView.bean.endereco.uf}" disabled="#{filialView.disabled}" required="false" label="#{msgs.lbl_estado}">
+												<f:selectItem itemLabel="" itemValue="" />
+												<f:selectItems value="#{filialView.estados}" var="uf" itemLabel="#{uf.label}" itemValue="#{uf.value}" />
+												<p:ajax update=":form:lbl_inscricao_estadual" listener="#{filialView.handleEventMask}" />
+											</p:selectOneMenu>
+										</div>
+									</div>
+								</p:outputPanel>
+								<div class="col-md-6">
+									<h:outputLabel value="#{msgs.lbl_inscricao_municipal}" for="lbl_inscricao_municipal" />
+									<div class="input-group">
+										<div class="input-group-addon">
+											<i class="fa fa-bars"></i>
+										</div>
+										<p:inputText id="lbl_inscricao_municipal" maxlength="18" value="#{filialView.bean.inscricaoMunicipal}" disabled="#{filialView.disabled}" required="false" label="#{msgs.lbl_inscricao_municipal}">
+											<pe:keyFilter regEx="/[0-9_]/i" />
+										</p:inputText>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<h:outputLabel value="#{msgs.lbl_inscricao_estadual}" for="lbl_inscricao_estadual" />
+									<div class="input-group">
+										<div class="input-group-addon">
+											<i class="fa fa-bars"></i>
+										</div>
+										<p:inputMask mask="#{filialView.maskInsEstadual}" id="lbl_inscricao_estadual" maxlength="14" value="#{filialView.bean.inscricaoEstadual}" disabled="#{filialView.disabled}" required="false" label="#{msgs.lbl_inscricao_estadual}" />
+									</div>
+								</div>
+								<div class="col-md-6">
+									<h:outputLabel value="#{msgs.lbl_telefone}" for="lbl_telefone" />
+									<div class="input-group">
+										<div class="input-group-addon">
+											<i class="fa fa-phone"></i>
+										</div>
+										<p:inputMask mask="(99) 9999-9999" id="lbl_telefone" value="#{filialView.bean.telefone1}" disabled="#{filialView.disabled}" required="true" label="#{msgs.lbl_telefone}" />
+									</div>
+								</div>
+								<div class="col-md-6">
+									<h:outputLabel value="#{msgs.lbl_telefone_fax}" for="lbl_telefone_fax" />
+									<div class="input-group">
+										<div class="input-group-addon">
+											<i class="fa fa-fax"></i>
+										</div>
+										<p:inputMask mask="(99) 9999-9999" id="lbl_telefone_fax" value="#{filialView.bean.telefone2}" disabled="#{filialView.disabled}" required="true" label="#{msgs.lbl_telefone_fax}" />
+									</div>
+								</div>
+								<!-- Inicio CTE -->
+								<div class="col-md-6">
+									<h:outputLabel value="#{msgs.lbl_certificado_cte}" for="lbl_certificado_cte" />
+									<div class="input-group">
+										<div class="input-group-addon">
+											<i class="fa fa-certificate"></i>
+										</div>
+										<p:inputText id="lbl_certificado_cte" value="#{filialView.bean.certificadoCte}" disabled="#{filialView.disabled}" required="true" label="#{msgs.lbl_certificado_cte}">
+											<pe:keyFilter regEx="/[0-9_]/i" />
+										</p:inputText>
+									</div>
+								</div>
+								<div class="col-md-1">
+									<h:outputLabel value="#{msgs.lbl_copias_cte}" for="lbl_copias_cte" />
+									<div class="input-group">
+										<p:inputText id="lbl_copias_cte" value="#{filialView.bean.copiasCte}" maxlength="3" disabled="#{filialView.disabled}" required="true" label="#{msgs.lbl_copias_cte}">
+											<pe:keyFilter regEx="/[0-9_]/i" />
+										</p:inputText>
+									</div>
+								</div>
+								<div class="col-md-3">
+									<h:outputLabel value="#{msgs.lbl_validade_cte}" for="lbl_validade_cte" />
+									<div class="input-group">
+										<div class="input-group-addon">
+											<i class="fa fa-calendar"></i>
+										</div>
+										<p:calendar id="lbl_validade_cte" value="#{filialView.bean.dataValidadeCte}" disabled="#{filialView.disabled}" required="true" label="#{msgs.lbl_validade_cte}" pattern="dd/MM/yyyy" mask="true" />
+									</div>
+								</div>
+								<div class="col-md-2">
+									<h:outputLabel value="#{msgs.lbl_ambiente_cte}" for="lbl_ambiente_cte" />
+									<div class="input-group">
+										<p:selectOneMenu id="lbl_ambiente_cte" value="#{filialView.bean.ambienteCte}" disabled="#{filialView.disabled}" required="true" label="#{msgs.lbl_ambiente_cte}">
+											<f:selectItem itemLabel="" itemValue="" />
+											<f:selectItem itemLabel="#{msgs.lbl_homologacao}" itemValue="H" />
+											<f:selectItem itemLabel="#{msgs.lbl_producao}" itemValue="P" />
+										</p:selectOneMenu>
+									</div>
+								</div>
+								<div class="col-md-12">
+									<h:outputLabel value="#{msgs.lbl_local_xml_cte}" for="lbl_local_xml_cte" />
+									<div class="input-group">
+										<div class="input-group-addon">
+											<i class="fa fa-file-text-o"></i>
+										</div>
+										<p:inputText id="lbl_local_xml_cte" value="#{filialView.bean.localXmlCte}" disabled="#{filialView.disabled}" required="true" label="#{msgs.lbl_local_xml_cte}" />
+									</div>
+								</div>
+								<div class="col-md-12">
+									<h:outputLabel value="#{msgs.lbl_local_schema_cte}" for="lbl_local_schema_cte" />
+									<div class="input-group">
+										<div class="input-group-addon">
+											<i class="fa fa-file-text-o"></i>
+										</div>
+										<p:inputText id="lbl_local_schema_cte" value="#{filialView.bean.localSchemaCte}" disabled="#{filialView.disabled}" required="true" label="#{msgs.lbl_local_schema_cte}" />
+									</div>
+								</div>
+								<div class="col-md-12">
+									<h:outputLabel value="#{msgs.lbl_local_dacte_cte}" for="lbl_local_dacte_cte" />
+									<div class="input-group">
+										<div class="input-group-addon">
+											<i class="fa fa-file-text-o"></i>
+										</div>
+										<p:inputText id="lbl_local_dacte_cte" value="#{filialView.bean.localDacteCte}" disabled="#{filialView.disabled}" required="true" label="#{msgs.lbl_local_dacte_cte}" />
+									</div>
+								</div>
+								<!-- Fim CTE -->								
+								<!-- Inicio NFE -->
+								<div class="col-md-6">
+									<h:outputLabel value="#{msgs.lbl_certificado_nfe}" for="lbl_certificado_nfe" />
+									<div class="input-group">
+										<div class="input-group-addon">
+											<i class="fa fa-certificate"></i>
+										</div>
+										<p:inputText id="lbl_certificado_nfe" value="#{filialView.bean.certificadoNfe}" disabled="#{filialView.disabled}" required="true" label="#{msgs.lbl_certificado_nfe}">
+											<pe:keyFilter regEx="/[0-9_]/i" />
+										</p:inputText>
+									</div>
+								</div>
+								<div class="col-md-1">
+									<h:outputLabel value="#{msgs.lbl_copias_nfe}" for="lbl_copias_nfe" />
+									<div class="input-group">
+										<p:inputText id="lbl_copias_nfe" value="#{filialView.bean.copiasNfe}" maxlength="3" disabled="#{filialView.disabled}" required="true" label="#{msgs.lbl_copias_nfe}">
+											<pe:keyFilter regEx="/[0-9_]/i" />
+										</p:inputText>
+									</div>
+								</div>
+								<div class="col-md-3">
+									<h:outputLabel value="#{msgs.lbl_validade_nfe}"
+										for="lbl_validade_nfe" />
+									<div class="input-group">
+										<div class="input-group-addon">
+											<i class="fa fa-calendar"></i>
+										</div>
+										<p:calendar id="lbl_validade_nfe" value="#{filialView.bean.dataValidadeNfe}" disabled="#{filialView.disabled}" required="true" label="#{msgs.lbl_validade_nfe}" pattern="dd/MM/yyyy" mask="true" />
+									</div>
+								</div>
+								<div class="col-md-2">
+									<h:outputLabel value="#{msgs.lbl_ambiente_nfe}" for="lbl_ambiente_nfe" />
+									<div class="input-group">
+										<p:selectOneMenu id="lbl_ambiente_nfe" value="#{filialView.bean.ambienteNfe}" disabled="#{filialView.disabled}" required="true" label="#{msgs.lbl_ambiente_nfe}">
+											<f:selectItem itemLabel="" itemValue="" />
+											<f:selectItem itemLabel="#{msgs.lbl_homologacao}" itemValue="H" />
+											<f:selectItem itemLabel="#{msgs.lbl_producao}" itemValue="P" />
+										</p:selectOneMenu>
+									</div>
+								</div>
+								<div class="col-md-12">
+									<h:outputLabel value="#{msgs.lbl_local_xml_nfe}" for="lbl_local_xml_nfe" />
+									<div class="input-group">
+										<div class="input-group-addon">
+											<i class="fa fa-file-text-o"></i>
+										</div>
+										<p:inputText id="lbl_local_xml_nfe" value="#{filialView.bean.localXmlNfe}" disabled="#{filialView.disabled}" required="true" label="#{msgs.lbl_local_xml_nfe}" />
+									</div>
+								</div>
+								<div class="col-md-12">
+									<h:outputLabel value="#{msgs.lbl_local_schema_nfe}" for="lbl_local_schema_nfe" />
+									<div class="input-group">
+										<div class="input-group-addon">
+											<i class="fa fa-file-text-o"></i>
+										</div>
+										<p:inputText id="lbl_local_schema_nfe" value="#{filialView.bean.localSchemaNfe}" disabled="#{filialView.disabled}" required="true" label="#{msgs.lbl_local_schema_nfe}" />
+									</div>
+								</div>
+								<div class="col-md-12">
+									<h:outputLabel value="#{msgs.lbl_local_danfe_nfe}" for="lbl_local_danfe_nfe" />
+									<div class="input-group">
+										<div class="input-group-addon">
+											<i class="fa fa-file-text-o"></i>
+										</div>
+										<p:inputText id="lbl_local_danfe_nfe" value="#{filialView.bean.localDanfeNfe}" disabled="#{filialView.disabled}" required="true" label="#{msgs.lbl_local_danfe_nfe}" />
+									</div>
+								</div>									
+								<!-- Fim NFE -->								
+								<div class="col-md-4">
+									<h:outputLabel value="#{msgs.lbl_usuario}" for="lbl_usuario" />
+									<div class="input-group">
+										<div class="input-group-addon">
+											<i class="fa fa fa-male"></i>
+										</div>
+										<p:inputText id="lbl_usuario" value="#{filialView.bean.usuario}" disabled="#{filialView.disabled}" required="false" label="#{msgs.lbl_usuario}">
+											<pe:keyFilter regEx="/[a-z0-9_\.\-@]/i" />
+										</p:inputText>
+									</div>
+								</div>
+								<div class="col-md-4">
+									<h:outputLabel value="#{msgs.lbl_password}" for="lbl_password" />
+									<div class="input-group">
+										<div class="input-group-addon">
+											<i class="fa fa-key"></i>
+										</div>
+										<p:password id="lbl_password" value="#{filialView.bean.password}" styleClass="form-control" disabled="#{filialView.disabled}" required="false" label="#{msgs.lbl_password}" />
+									</div>
+								</div>
+								<div class="col-md-4">
+									<h:outputLabel value="#{msgs.lbl_autenticacao}" for="lbl_autenticacao" />
+									<div class="input-group">
+										<p:selectBooleanCheckbox id="lbl_autenticacao" styleClass="icheckbox_minimal checked" style="position: relative;" value="#{filialView.bean.autentica}" disabled="#{filialView.disabled}" required="false" label="#{msgs.lbl_autenticacao}" />
+									</div>
+								</div>									
+								<div class="col-md-8">
+									<h:outputLabel value="#{msgs.lbl_email}" for="lbl_email" />
+									<div class="input-group">
+										<div class="input-group-addon">
+											<i class="fa fa-envelope"></i>
+										</div>
+										<p:inputText id="lbl_email" value="#{filialView.bean.email}" disabled="#{filialView.disabled}" required="true" label="#{msgs.lbl_email}">
+											<f:validator validatorId="custom.emailValidator" />
+											<f:validateLength minimum="2" maximum="100" />
+											<pe:keyFilter regEx="/[a-z0-9_\.\-@]/i" />
+										</p:inputText>
+									</div>
+								</div>
+								<div class="col-md-8">
+									<h:outputLabel value="#{msgs.lbl_pop}" for="lbl_pop" />
+									<div class="input-group">
+										<div class="input-group-addon">
+											<i class="fa fa-desktop"></i>
+										</div>
+										<p:inputText id="lbl_pop" value="#{filialView.bean.pop}" disabled="#{filialView.disabled}" required="true" label="#{msgs.lbl_pop}">
+											<f:validateLength minimum="2" maximum="100" />
+										</p:inputText>
+									</div>
+								</div>
+								<div class="col-md-2">
+									<h:outputLabel value="#{msgs.lbl_porta_pop}" for="lbl_porta_pop" />
+									<div class="input-group">
+										<p:inputText id="lbl_porta_pop" value="#{filialView.bean.portaPop}" disabled="#{filialView.disabled}" required="true" label="#{msgs.lbl_porta_pop}">
+											<pe:keyFilter regEx="/[0-9_]/i" />
+										</p:inputText>
+									</div>
+								</div>
+								<div class="col-md-8">
+									<h:outputLabel value="#{msgs.lbl_smtp}" for="lbl_smtp" />
+									<div class="input-group">
+										<div class="input-group-addon">
+											<i class="fa fa-desktop"></i>
+										</div>
+										<p:inputText id="lbl_smtp" value="#{filialView.bean.smtp}" disabled="#{filialView.disabled}" required="true" label="#{msgs.lbl_smtp}">
+											<f:validateLength minimum="2" maximum="100" />
+										</p:inputText>
+									</div>
+								</div>
+								<div class="col-md-2">
+									<h:outputLabel value="#{msgs.lbl_porta_smtp}" for="lbl_porta_smtp" />
+									<div class="input-group">
+										<p:inputText id="lbl_porta_smtp" value="#{filialView.bean.portaSmtp}" disabled="#{filialView.disabled}" required="true" label="#{msgs.lbl_porta_smtp}">
+											<pe:keyFilter regEx="/[0-9_]/i" />
+										</p:inputText>
+									</div>
+								</div>
+								<div class="col-md-4">
+									<div class="input-group">
+										<br/><br/>
+										<p:graphicImage value="/resources/images/logo.jpg" cache="false" rendered="#{filialView.bean.imagem != null}" />
+									</div>									
+								</div>																																	
+								<div class="col-md-6">
+									<div class="input-group">
+										<br/><br/>
+										<h:form enctype="multipart/form-data">
+											<p:fileUpload value="#{filialView.file}" label="#{msgs.lbl_upload_imagem}" mode="simple" skinSimple="false" rendered="#{!filialView.disabled}" />
+										</h:form>
+									</div>
+								</div>
+							</div>						
+						</div>
+					</div>					
+				</div>
+				<util:formButtons view="#{filialView}" />
+			</section>
+
+		</h:form>
+
+	</ui:define>
+	<ui:define name="dialogs">
+		<ui:include src="/cadastro/dialog/enderecoDialog.xhtml">
+			<ui:param name="title" value="#{msgs.tit_endereco}" />
+			<ui:param name="nameDialog" value="singleDialogEndereco" />
+			<ui:param name="update" value=":form:endereco" />
+			<ui:param name="addOnBeanView" value="#{enderecoView}" />
+			<ui:param name="receiveBeanView" value="#{filialView}" />
+		</ui:include>
+	</ui:define>
+</ui:composition>

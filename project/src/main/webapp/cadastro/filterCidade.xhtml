@@ -1,0 +1,63 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:util="http://java.sun.com/jsf/composite/util"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:project="http://project.com.br/tags"
+	template="/WEB-INF/cadastro/template.xhtml">
+
+	<ui:define name="title"><i class="fa fa-globe"></i> #{msgs.tit_cidades_atendidas}</ui:define>
+	
+
+	<ui:define name="filter">
+		<project:form id="cidadeViewFilter" view="#{cidadeView}"/>			
+	</ui:define>
+	
+	
+	<ui:define name="buttonFilter">		
+		<util:filterButtons view="#{cidadeView}" />
+	</ui:define>
+	
+		
+	<ui:define name="table">
+		<p:dataTable id="table" var="cidade" widgetVar="list" 
+			paginator="true"
+			lazy="true" 
+			paginatorPosition="bottom" 
+			value="#{cidadeView.list}"
+			selectionMode="single"
+			selection="#{cidadeView.bean}" 
+			rowKey="#{cidade.id}"
+			rows="#{cidadeView.rows}"
+			paginatorTemplate="#{cidadeView.getPaginationTemplate()}"
+			rowsPerPageTemplate="#{cidadeView.rowsPerPage}"
+			emptyMessage="#{cidadeView.getEmptyListMessage()}">
+
+			<p:ajax event="rowSelect" listener="#{cidadeView.onRowSelect}" update=":form:table" />
+
+			<p:column headerText="#{msgs.lbl_cidade}">
+				#{cidade.cidade}
+			</p:column>
+
+			<p:column headerText="#{msgs.lbl_estado}">
+				#{cidade.estado}
+			</p:column>
+			
+			<p:column headerText="#{msgs.lbl_filial}">
+				#{cidade.filial.sigla}
+			</p:column>							
+
+		</p:dataTable>
+	</ui:define>
+	<ui:define name="dialogs">
+		<ui:include src="/cadastro/dialog/filialDialog.xhtml">
+			<ui:param name="title" value="#{msgs.tit_filial}" />
+			<ui:param name="nameDialog" value="singleDialogFilial" />
+			<ui:param name="update" value=":form" />				
+			<ui:param name="addOnBeanView" value="#{filialView}" />
+			<ui:param name="receiveBeanView" value="#{cidadeView}" />						
+		</ui:include>
+	</ui:define>
+</ui:composition>

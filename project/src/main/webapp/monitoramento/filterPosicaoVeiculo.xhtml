@@ -1,0 +1,148 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:util="http://java.sun.com/jsf/composite/util"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:project="http://project.com.br/tags"
+	template="/WEB-INF/monitoramento/template.xhtml">
+
+	<ui:define name="title">
+		<i class="fa fa-location-arrow"></i> #{msgs.menu_monitoramento_posicao_veiculo}
+	</ui:define>
+
+
+	<ui:define name="filter">
+			<div class="row">
+				<div class="col-md-6">
+					<div class="box-body">
+						<div class="form-group">
+
+							<h:outputLabel value="#{msgs.lbl_placa}" for="lbl_placa" />
+							<div class="input-group input-group-sm">
+								<p:inputText id="lbl_placa" value="#{posicaoVeiculoView.placa}" required="false" label="#{msgs.lbl_placa}">
+									<p:ajax event="blur" update=":form:ckecked" listener="#{posicaoVeiculoView.ativarTodasLocalizacao}" />
+								</p:inputText>
+								<span class="input-group-btn"> 
+									<p:commandButton value="" styleClass="btn btn-default btn-sm fa fa-binoculars" actionListener="#{veiculoView.openProprietarioDialog}"
+										immediate="true" modal="#singleDialogVeiculo" /> 
+								</span>
+							</div>
+
+
+					
+							<h:outputLabel value="#{msgs.lbl_data_inicio}" for="lbl_data_inicio" />
+							<div class="input-group">
+								<div class="input-group-addon">
+									<i class="fa fa-calendar"></i>
+								</div>
+								<p:calendar id="lbl_data_inicio" value="#{posicaoVeiculoView.beanFilter.dataInicio}" pattern="dd/MM/yyyy HH:mm" label="#{msgs.lbl_data_inicio}" />
+							</div>
+
+
+							<h:outputLabel value="#{msgs.lbl_data_fim}" for="lbl_data_fim" />
+							<div class="input-group">
+								<div class="input-group-addon">
+									<i class="fa fa-calendar"></i>
+								</div>
+								<p:calendar id="lbl_data_fim" value="#{posicaoVeiculoView.beanFilter.dataFim}" pattern="dd/MM/yyyy HH:mm" label="#{msgs.lbl_data_fim}" />
+							</div>
+							
+
+							<h:outputLabel value="#{msgs.lbl_ultima_localizacao}" for="ckecked" />
+							<div class="input-group">
+								<p:selectBooleanCheckbox id="ckecked" value="#{posicaoVeiculoView.ultimaLocalizacao}" disabled="#{posicaoVeiculoView.ckeckedUltimaLocalizacao}" />
+							</div>
+
+
+						</div>
+					</div>
+				</div>
+
+				<div class="col-md-6">
+					<div class="box-body">
+
+						<div class="form-group">
+						
+							<h:outputLabel value="#{msgs.lbl_timeout}" />
+							<div class="input-group">
+								<pe:timePicker value="#{posicaoVeiculoView.time}" styleClass="form-control" mode="popup" widgetVar="popupBtnTimeWidget" label="#{msgs.lbl_configure_timeout}" minMinute="2">
+									<p:ajax event="close" listener="#{posicaoVeiculoView.closeListener}" />
+								</pe:timePicker>
+							</div>
+							
+							
+							<h:outputLabel value="#{msgs.lbl_zoom_map}" for="lbl_zoom_map"/>
+							<div class="input-group">
+								<p:selectOneMenu id="lbl_zoom_map" value="#{posicaoVeiculoView.zoom}" disabled="#{motoristaView.disabled}" required="true" label="#{msgs.lbl_zoom_map}">
+									<f:selectItem itemValue="6" itemLabel="6" />
+									<f:selectItem itemValue="8" itemLabel="8" />
+									<f:selectItem itemValue="10" itemLabel="10" />
+									<f:selectItem itemValue="12" itemLabel="12" />
+									<f:selectItem itemValue="14" itemLabel="14" />
+									<f:selectItem itemValue="16" itemLabel="16" />
+									<f:selectItem itemValue="18" itemLabel="18" />		
+									<f:selectItem itemValue="20" itemLabel="20" />
+									<f:selectItem itemValue="22" itemLabel="22" />
+									<f:selectItem itemValue="24" itemLabel="24" />
+									<f:selectItem itemValue="26" itemLabel="26" />																				
+								</p:selectOneMenu>									
+							</div>
+							
+							
+							<h:outputLabel value="#{msgs.lbl_ativa_timeout}" />
+							<div class="input-group">
+								<p:selectBooleanCheckbox value="#{posicaoVeiculoView.ativaTimeout}">
+									<p:ajax update=":form" listener="#{posicaoVeiculoView.ativarTime}" />
+								</p:selectBooleanCheckbox>
+								<pe:timer id="time" timeout="#{posicaoVeiculoView.timeout}"
+									singleRun="false" format="HH:mm:ss" update=":form"
+									listener="#{posicaoVeiculoView.search}"
+									rendered="#{posicaoVeiculoView.ativaTimeout}"
+									oncomplete="util.gerarInfoWindow();" />
+							</div>						
+
+						</div>
+					</div>
+				</div>
+			</div>
+
+		<p:commandButton value="#{msgs.btn_pesquisar}"
+			styleClass="btn btn-app fa fa-search"
+			update=":form" actionListener="#{posicaoVeiculoView.search}"
+			immediate="false" oncomplete="util.gerarInfoWindow();" />
+			
+			
+		<p:commandButton value="#{msgs.btn_limpar}"
+			styleClass="btn btn-app fa fa-eraser"
+			update=":form " immediate="true" onclick="util.resetSearchFields();"
+			actionListener="#{posicaoVeiculoView.clearBeanFilter}" />
+
+	</ui:define>
+
+
+	<ui:define name="table">
+		<p:gmap id="maps" widgetVar="widgetVarMaps"
+			center="#{posicaoVeiculoView.latlongMap != null ? posicaoVeiculoView.latlongMap : '-23.4783775,-46.6577631'}"
+			zoom="#{posicaoVeiculoView.zoom}" type="ROADMAP" style="width:auto; height:600px" model="#{posicaoVeiculoView.model}" streetView="true">
+			<p:ajax event="overlaySelect" listener="#{posicaoVeiculoView.onMarkerSelect}" />
+			<p:gmapInfoWindow id="infoWindow">
+				<p:outputPanel
+					style="text-align: center; display: block; margin: auto; height:30px">
+					<h:outputText value="#{posicaoVeiculoView.marker.title}" />
+				</p:outputPanel>
+			</p:gmapInfoWindow>
+		</p:gmap>
+	</ui:define>
+	
+	<ui:define name="dialogs">
+		<ui:include src="/cadastro/dialog/veiculoDialog.xhtml">
+			<ui:param name="title" value="#{msgs.tit_veiculo}" />
+			<ui:param name="nameDialog" value="singleDialogVeiculo" />
+			<ui:param name="update" value=":form" />
+			<ui:param name="addOnBeanView" value="#{veiculoView}" />
+			<ui:param name="receiveBeanView" value="#{posicaoVeiculoView}" />
+		</ui:include>
+	</ui:define>
+</ui:composition>

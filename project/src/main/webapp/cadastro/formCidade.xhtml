@@ -1,0 +1,101 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:util="http://java.sun.com/jsf/composite/util"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:project="http://project.com.br/tags"
+	template="/WEB-INF/cadastro/template.xhtml">
+
+	<ui:define name="title"><i class="fa fa-globe"></i> #{msgs.tit_cidades_atendidas}</ui:define>
+
+	<ui:define name="content">
+
+		<h:form id="form" enctype="multipart/form-data">
+
+			<section class="content">
+				<div class="box">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="box-body">
+								<div class="col-md-4">
+									<h:outputLabel value="#{msgs.lbl_cidade}" for="lbl_cidade" />
+									<div class="input-group">
+										<div class="input-group-addon">
+											<i class="fa fa-bars"></i>
+										</div>
+										<p:inputText id="lbl_cidade" maxlength="200" value="#{cidadeView.bean.cidade}" disabled="#{cidadeView.disabled}" required="true" label="#{msgs.lbl_cidade}" />
+									</div>
+								</div>
+								<div class="col-md-2">
+									<h:outputLabel value="#{msgs.lbl_estado}" for="lbl_estado" />
+									<div class="input-group">
+										<p:selectOneMenu id="lbl_estado" value="#{cidadeView.bean.estado}" disabled="#{cidadeView.disabled}" required="true" label="#{msgs.lbl_estado}">
+											<f:selectItem itemLabel="" itemValue="" />
+											<f:selectItems value="#{cidadeView.estados}" var="uf" itemLabel="#{uf.label}" itemValue="#{uf.value}" />
+										</p:selectOneMenu>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<h:outputLabel value="#{msgs.lbl_codSecFazenda}" for="lbl_codSecFazenda" />
+									<div class="input-group">
+										<div class="input-group-addon">
+											<i class="fa fa-bars"></i>
+										</div>
+										<p:inputText id="lbl_codSecFazenda" style="width: 120px;" value="#{cidadeView.bean.codSecFazenda}" disabled="#{cidadeView.disabled}" required="false" label="#{msgs.lbl_codSecFazenda}" />
+									</div>
+								</div>
+								<div class="col-md-6">
+									<h:outputLabel value="#{msgs.lbl_filial}" for="lbl_filial" />
+									<div class="input-group input-group-sm">
+										<p:inputText id="lbl_filial" value="#{cidadeView.bean.filial.sigla}" disabled="true" required="true" label="#{msgs.lbl_filial}" />
+										<span class="input-group-btn"> 
+											<p:commandButton value="" styleClass="btn btn-default btn-sm fa fa-binoculars" disabled="#{cidadeView.disabled}" immediate="true" modal="#singleDialogFilial" /> 
+										</span>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<h:outputLabel value="#{msgs.lbl_codIbge}" for="lbl_codIbge" />
+									<div class="input-group">
+										<div class="input-group-addon">
+											<i class="fa fa-bars"></i>
+										</div>
+										<p:inputText id="lbl_codIbge" style="width: 120px;" value="#{cidadeView.bean.codIbge}" disabled="#{cidadeView.disabled}" required="true" label="#{msgs.lbl_codIbge}" />
+									</div>
+								</div>
+								<div class="col-md-6">
+									<h:outputLabel value="#{msgs.lbl_area}" for="lbl_area" />
+									<div class="input-group">
+										<div class="input-group-addon">
+											<i class="fa fa-bars"></i>
+										</div>
+										<p:inputText id="lbl_area" style="width: 120px;" maxlength="3" value="#{cidadeView.bean.area}" disabled="#{cidadeView.disabled}" required="true" label="#{msgs.lbl_area}" />
+									</div>
+								</div>
+								<div class="col-md-3">
+									<h:outputLabel value="#{msgs.lbl_atendRedespachante}" for="lbl_atendRedespachante" />
+									<div class="input-group">
+										<p:selectBooleanCheckbox styleClass="icheckbox_minimal checked" style="position: relative;" value="#{cidadeView.bean.autentica}" disabled="#{cidadeView.disabled}" required="false" label="#{msgs.lbl_atendRedespachante}" />
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<util:formButtons view="#{cidadeView}" />
+
+			</section>
+		</h:form>
+	</ui:define>
+	<ui:define name="dialogs">
+		<ui:include src="/cadastro/dialog/filialDialog.xhtml">
+			<ui:param name="title" value="#{msgs.tit_filial}" />
+			<ui:param name="nameDialog" value="singleDialogFilial" />
+			<ui:param name="update" value=":form" />
+			<ui:param name="addOnBeanView" value="#{filialView}" />
+			<ui:param name="receiveBeanView" value="#{cidadeView}" />
+		</ui:include>
+	</ui:define>
+</ui:composition>

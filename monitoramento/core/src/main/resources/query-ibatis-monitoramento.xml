@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="monitoramento">
+
+	<resultMap id="posicaoVeiculo" type="br.com.project.commons.monitoramento.entity.PosicaoVeiculo">
+        <result property="id"            column="ID_POSICAO"/>
+        <result property="data"          column="DATA"/>
+        <result property="longitude"     column="LONGITUDE"/>
+        <result property="latitude"      column="LATITUDE"/>
+        <result property="descricao"     column="DESCRICAO"/>
+        <association property="veiculo"  column="PLACA" javaType="br.com.project.commons.cadastro.entity.Veiculo">
+            <id property="placa" column="PLACA"/>
+        </association>     
+	</resultMap>
+	
+	<select id="buscarPosicaoVeiculos" parameterType="br.com.project.commons.monitoramento.entity.PosicaoVeiculo" resultMap="posicaoVeiculo">
+		  select p.placa, 
+		         p.data, 
+		         p.longitude, 
+		         p.latitude, 
+		         p.descricao 
+		         from posicao_veiculo p 
+			inner join veiculo v on v.placa = p.placa 
+			where 1=1
+						       
+ 	      <if test="veiculo != null and veiculo.placa != null">
+	        and v.placa = #{veiculo.placa}
+	      </if>	   	    
+	    
+	      <if test="dataInicio != null and dataFim != null">
+	        and p.data between #{dataInicio} and #{dataFim}
+	      </if>
+	    
+	      <if test="descricao != null">
+	        and p.descricao like #{descricao}
+	      </if>
+	      
+			group by p.placa, 
+			         p.data, 
+			         p.longitude, 
+			         p.latitude, 
+			         p.descricao
+			order by p.data desc	  	      
+	</select> 	
+	   
+	
+</mapper>
+ 

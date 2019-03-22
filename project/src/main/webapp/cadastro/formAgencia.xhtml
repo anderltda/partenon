@@ -1,0 +1,78 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:util="http://java.sun.com/jsf/composite/util"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:project="http://project.com.br/tags"
+	template="/WEB-INF/cadastro/template.xhtml">
+
+	<ui:define name="title"><i class="fa fa-bank"></i> #{msgs.tit_agencia} - #{agenciaView.beanMaster.nome} </ui:define>
+
+	<ui:define name="content">
+		<h:form id="form">
+			<section class="content">
+				<div class="box">
+					<div class="row">
+						
+						<div class="col-md-12">
+							<div class="box-body">
+								<div class="col-md-4">
+									<h:outputLabel value="#{msgs.lbl_numero}" for="lbl_numero" />
+									<div class="input-group">
+										<div class="input-group-addon">
+											<i class="fa fa-bank"></i>
+										</div>
+										<p:inputText id="lbl_numero" maxlength="6" value="#{agenciaView.bean.numero}" disabled="#{bancoView.disabled}" required="true" label="#{msgs.lbl_numero}">
+											<pe:keyFilter regEx="/[0-9_]/i" />
+										</p:inputText>
+									</div>
+								</div>
+								<div class="col-md-1">
+									<h:outputLabel value="#{msgs.lbl_digito}" for="lbl_digito" />
+									<div class="input-group">
+										<p:inputText id="lbl_digito" maxlength="7" value="#{agenciaView.bean.digito}" disabled="#{agenciaView.disabled}" required="false" label="#{msgs.lbl_digito}">
+											<pe:keyFilter regEx="/[0-9_]/i" />
+										</p:inputText>
+									</div>
+								</div>															
+								<div class="col-md-7">
+									<h:outputLabel value="#{msgs.lbl_nome}" for="lbl_nome" />
+									<div class="input-group">
+										<div class="input-group-addon">
+											<i class="fa fa-align-justify"></i>
+										</div>
+										<p:inputText id="lbl_nome" value="#{agenciaView.bean.nome}" disabled="#{agenciaView.disabled}" required="true" label="#{msgs.lbl_nome}">
+											<f:validateLength minimum="3" maximum="100" />
+										</p:inputText>
+									</div>
+								</div>
+								<div class="col-md-5">
+									<h:outputLabel value="#{msgs.lbl_cidade}" for="lbl_cidade" />
+									<div class="input-group">
+										<div class="input-group-addon">
+											<i class="fa fa-bars"></i>
+										</div>
+										<p:inputText id="lbl_cidade" value="#{agenciaView.bean.cidade}" disabled="#{agenciaView.disabled}" required="true" label="#{msgs.lbl_cidade}" />
+									</div>
+								</div>
+								<div class="col-md-7">
+									<h:outputLabel value="#{msgs.lbl_estado}" for="lbl_estado" />
+									<div class="input-group">
+										<p:selectOneMenu id="lbl_estado" value="#{agenciaView.bean.uf}" disabled="#{agenciaView.disabled}" required="true" label="#{msgs.lbl_estado}">
+											<f:selectItem itemLabel="" itemValue="" />
+											<f:selectItems value="#{agenciaView.estados}" var="uf" itemLabel="#{uf.label}" itemValue="#{uf.value}" />
+										</p:selectOneMenu>
+									</div>
+								</div>																	
+							</div>
+						</div>
+						
+					</div>
+				</div>
+				<util:formButtons view="#{agenciaView}" />
+			</section>
+		</h:form>
+	</ui:define>
+</ui:composition>

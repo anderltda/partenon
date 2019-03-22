@@ -1,0 +1,62 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:composite="http://java.sun.com/jsf/composite">
+
+	<composite:interface>
+		<composite:attribute name="classe" required="true" />
+		<composite:attribute name="method" />
+		<composite:attribute name="value" />
+		<composite:attribute name="printer" />
+	</composite:interface>
+
+	<composite:implementation>
+		<h:outputScript library="js" name="deployJava.js" />
+		<script type="text/javascript">
+				var attributes = {
+					id : 'applet',
+					code : 'br.com.project.applet.#{cc.attrs.classe}.class',
+					archive : '/datapress/applets/applets-certificado-1.0.0.jar,' + '/datapress/applets/rxtx-certificado-2.1.7.jar,' + '/datapress/applets/plugin.jar',
+					style : 'visibility:hidden; width: 0; height: 0;'
+				};
+				var parameters = {
+					value : '#{cc.attrs.value}'
+				};
+				
+				var version = '1.6';
+				
+				deployJava.runApplet(attributes, parameters, version);
+				
+				function messageSuccess(message) {
+					jQuery('#messageId').val(message);
+					loadingHide();
+					methodSuccess();
+				}
+				
+				function messageErro(message) {
+					jQuery('#messageId').val(message);
+					loadingHide();
+					methodErro();
+				}
+				
+				function loginToten(idToten) {
+					jQuery('#totenId').val(idToten);
+					methodLoginToten();
+				}
+				
+				function redirect(value) {
+					window.location.href = value;
+				}
+				
+				function loadingShow() {
+					loadingDialog.show();
+				}
+				
+				function loadingHide() {
+					loadingDialog.hide();
+				}
+		</script>
+
+	</composite:implementation>
+</html>

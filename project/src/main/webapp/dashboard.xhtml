@@ -1,0 +1,99 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:util="http://java.sun.com/jsf/composite/util"
+	xmlns:project="http://project.com.br/tags"
+	template="/WEB-INF/template/template.xhtml">
+
+	<ui:define name="title">
+		<i class="fa fa fa-dashboard"></i> #{msgs.menu_dashboard}
+	</ui:define>
+
+
+	<ui:define name="content">
+		<h:form id="home">
+			<section class="content">
+				<h4 class="page-header">
+					Modulos <small>Acesso aos modulos</small>
+				</h4>
+				<div class="row">
+
+					<!-- Modulo Seguranca -->
+					<div class="col-lg-3 col-xs-6">
+						<div class="small-box bg-red">
+							<div class="inner">
+								<h:commandLink styleClass="dashbord-link" action="seguranca/index.xhtml">
+									<h3>0</h3>
+									<p>#{msgs.menu_seguranca}</p>
+								</h:commandLink>
+							</div>
+							<div class="icon">
+								<i class="fa fa-lock"></i>
+							</div>
+							<a href="#" class="small-box-footer"> <h:outputText
+									value="#{msgs.lbl_mais_informacao}" /> <i
+								class="fa fa-arrow-circle-right"></i> </a>
+						</div>
+					</div>
+					<!-- Modulo Seguranca -->
+
+
+					<!-- Modulo Monitoramento -->
+					<div class="col-lg-3 col-xs-6">
+						<div class="small-box bg-yellow">
+							<div class="inner">
+								<h:commandLink styleClass="dashbord-link" action="monitoramento/index.xhtml">
+									<h3>
+										0<sup style="font-size: 20px">%</sup>
+									</h3>
+									<p>#{msgs.menu_monitoramento}</p>
+								</h:commandLink>
+							</div>
+							<div class="icon">
+								<i class="fa fa-globe"></i>
+							</div>
+							<a href="#" class="small-box-footer"> <h:outputText
+									value="#{msgs.lbl_mais_informacao}" /> <i
+								class="fa fa-info-circle"></i> </a>
+						</div>
+					</div>
+					<!-- Modulo Monitoramento -->
+
+
+					<!-- Modulo Cadastro -->
+					<div class="col-lg-3 col-xs-6">
+						<!-- small box -->
+						<div class="small-box bg-aqua">
+							<div class="inner">
+								<h:commandLink styleClass="dashbord-link" action="cadastro/index.xhtml">
+									<h3>
+										0<sup style="font-size: 20px">%</sup>
+									</h3>
+									<p>#{msgs.menu_cadastro}</p>
+								</h:commandLink>
+							</div>
+							<div class="icon">
+								<i class="fa fa-plus-square"></i>
+							</div>
+							<a href="#" class="small-box-footer"> <h:outputText
+									value="#{msgs.lbl_mais_informacao}" /> <i
+								class="fa fa-info-circle"></i> </a>
+						</div>
+					</div>
+					<!-- Modulo Cadastro -->
+					
+					
+
+
+				</div>
+			</section>
+
+		</h:form>
+
+	</ui:define>
+
+
+
+</ui:composition>

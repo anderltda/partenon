@@ -1,0 +1,139 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:project="http://project.com.br/tags"
+	xmlns:composite="http://java.sun.com/jsf/composite"
+	template="/WEB-INF/template/template.xhtml">
+
+
+<composite:interface>
+	<composite:attribute name="title" required="true" />
+	<composite:attribute name="nameDialog" required="true" />
+	<composite:attribute name="update" required="true" />
+	<composite:attribute name="addOnBeanView" required="true" />
+	<composite:attribute name="receiveBeanView" required="true" />
+</composite:interface>
+
+<composite:implementation>
+
+	<div class="modal fade" id="#{cc.attrs.nameDialog}" tabindex="-1" role="dialog" aria-hidden="true">
+		<p:outputPanel global="true" autoUpdate="false">
+			<h:form id="formDialog">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+							<h4 class="modal-title">
+								<i class="fa fa-search"></i> #{msgs.tit_pesquisa} #{cc.attrs.title}
+							</h4>
+						</div>
+						<div class="modal-body">
+							<div class="form-group">
+								<project:form view="#{cc.attrs.addOnBeanView}" coluna="col-md-12" dialog="true"/>
+							</div>
+						</div>
+						
+						<div class="modal-footer clearfix col-md-offset-12 col-md-6 col-md-offset-6">
+							<p:commandButton value="#{msgs.btn_pesquisar}" styleClass="btn btn-primary pull-left fa fa-search" update="formDialog:table" actionListener="#{cc.attrs.addOnBeanView.search}" />
+							<p:commandButton value="#{msgs.btn_limpar}" styleClass="btn btn-primary pull-left fa fa-eraser" update="formDialog" actionListener="#{cc.attrs.addOnBeanView.clearBeanFilter}"/>						
+							<p:commandButton value="#{msgs.btn_selecionar}" styleClass="btn btn-primary pull-left fa fa-check-square-o" update="#{cc.attrs.update}" action="#{cc.attrs.receiveBeanView.onSelectDialog()}" data-dismiss="modal"/>
+						</div>
+						
+						<div class="modal-header">
+							<h4 class="modal-title">
+								<i class="fa fa-bars"></i> #{msgs.tit_listagem}
+							</h4>
+						</div>
+						<div class="modal-body">
+							<div class="form-group">
+								<p:dataTable id="table" var="bean" 
+									widgetVar="list"
+									paginator="true" 
+									lazy="true" 
+									selectionMode="single"
+									paginatorPosition="bottom"
+									value="#{cc.attrs.addOnBeanView.list}"
+									selection="#{cc.attrs.addOnBeanView.selected}"
+									rowKey="#{bean.id}" rows="#{cc.attrs.addOnBeanView.rows}"
+									paginatorTemplate="#{cc.attrs.addOnBeanView.getPaginationTemplate()}"
+									rowsPerPageTemplate="#{cc.attrs.addOnBeanView.rowsPerPage}"
+									emptyMessage="#{cc.attrs.addOnBeanView.getEmptyListMessage()}">
+	
+									<p:ajax event="rowSelect" listener="#{cc.attrs.addOnBeanView.onRowSelect}" update="table"/>
+	
+									<composite:insertChildren />
+								</p:dataTable>
+							</div>
+						</div>
+						<div class="modal-body">
+							<div class="form-group"></div>
+						</div>
+					</div>
+				</div>
+			</h:form>
+		</p:outputPanel>
+	</div>
+
+
+
+	<!-- <p:dialog header="#{msgs.tit_pesquisa} #{cc.attrs.title}"
+		widgetVar="#{cc.attrs.nameDialog}" modal="true" width="800"
+		height="600" dynamic="true">
+			<p:column>
+				<p:outputPanel global="true" autoUpdate="false">
+				<h:form id="formDialog">
+					<p:panel header="#{msgs.tit_pesquisa}">
+
+						<project:form view="#{cc.attrs.addOnBeanView}" />
+
+						<p:spacer width="6" height="20" />
+						<p:commandButton id="search" update="formDialog:table"
+							icon="ui-icon-search"
+							actionListener="#{cc.attrs.addOnBeanView.search}" />
+						<p:tooltip for="search"
+							value="Pesquisar - Efetuar a busca dos Filtros" showEffect="fade" />
+
+						<p:commandButton id="clear" update="formDialog"
+							icon="ui-icon-closethick"
+							actionListener="#{cc.attrs.addOnBeanView.clearBeanFilter}" />
+						<p:tooltip for="clear"
+							value="Limpar - Efetuar a limpeza dos Filtros" showEffect="fade" />
+
+					</p:panel>
+					<p:panel header="#{msgs.tit_listagem}">
+
+						<p:dataTable id="table" var="bean" widgetVar="list"
+							paginator="true" lazy="true" paginatorPosition="bottom"
+							selectionMode="single" value="#{cc.attrs.addOnBeanView.list}"
+							selection="#{cc.attrs.addOnBeanView.selected}"
+							rowKey="#{bean.id}" rows="#{cc.attrs.addOnBeanView.rows}"
+							paginatorTemplate="#{cc.attrs.addOnBeanView.getPaginationTemplate()}"
+							rowsPerPageTemplate="#{cc.attrs.addOnBeanView.rowsPerPage}"
+							emptyMessage="#{cc.attrs.addOnBeanView.getEmptyListMessage()}">
+
+							<p:ajax event="rowSelect"
+								listener="#{cc.attrs.addOnBeanView.onRowSelect}" update="table" />
+
+							<composite:insertChildren />
+						</p:dataTable>
+
+						<p:commandButton id="select" update="#{cc.attrs.update}"
+							icon="ui-icon-circle-check"
+							actionListener="#{cc.attrs.receiveBeanView.onSelectDialog()}"
+							oncomplete="PF('#{cc.attrs.nameDialog}').hide(); config.tabChangeEvent();" />
+						<p:tooltip for="select" value="Selecionar o Registro"
+							showEffect="fade" />
+
+						<p:commandButton id="close" icon="ui-icon-circle-close"
+							oncomplete="PF('#{cc.attrs.nameDialog}').hide();" />
+						<p:tooltip for="close" value="Fechar o Popin" showEffect="fade" />
+					</p:panel>
+				</h:form>
+			</p:column>
+		</p:outputPanel>
+	</p:dialog> -->
+
+</composite:implementation>
+</html>

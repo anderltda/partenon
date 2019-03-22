@@ -1,0 +1,29 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:composite="http://java.sun.com/jsf/composite">
+	
+	<composite:interface>
+		<composite:attribute name="view" required="true"/>
+		<composite:attribute name="ajax" default="false" type="java.lang.Boolean"/>
+		<composite:attribute name="form" default="form" />
+	</composite:interface>
+	
+	<composite:implementation>
+		
+		<br/>
+		
+		<!-- <div class="col-md-offset-12 col-md-5 col-md-offset-4"> -->
+		<div>			
+		    <p:commandButton value="#{msgs.btn_pesquisar}" styleClass="btn btn-primary pull-left fa fa-search" update=":#{cc.attrs.form}:table" actionListener="#{cc.attrs.view.search}" immediate="false" />
+		    <p:commandButton value="#{msgs.btn_limpar}" styleClass="btn btn-primary pull-left fa fa-eraser" update=":#{cc.attrs.form}:panel" actionListener="#{cc.attrs.view.clearBeanFilter}" immediate="true" ajax="#{cc.attrs.ajax}" />
+ 			<p:commandButton value="#{msgs.btn_novo}" styleClass="btn btn-primary pull-left fa fa-plus" action="#{cc.attrs.view.create}" immediate="true" ajax="false" />
+ 			<p:commandButton value="#{msgs.btn_editar}" styleClass="btn btn-primary pull-left fa fa-edit" action="#{cc.attrs.view.edit}" immediate="true" ajax="false" />	
+		    <p:commandButton value="#{msgs.btn_visualizar}" styleClass="btn btn-primary pull-left fa fa-check-square-o" action="#{cc.attrs.view.view}" immediate="true" ajax="false" />
+        </div>
+	    
+	    <br/>
+		
+	</composite:implementation>
+</html>

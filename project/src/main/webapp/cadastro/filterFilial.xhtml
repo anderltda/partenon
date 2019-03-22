@@ -1,0 +1,66 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:util="http://java.sun.com/jsf/composite/util"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:project="http://project.com.br/tags"
+	template="/WEB-INF/cadastro/template.xhtml">
+
+	<ui:define name="title"><i class="fa fa-building-o"></i> #{msgs.tit_filial}</ui:define>
+
+	<ui:define name="filter">
+		<project:form id="filialViewFilter" view="#{filialView}"/>			
+	</ui:define>
+	
+	
+	<ui:define name="buttonFilter">		
+		<util:filterButtons view="#{filialView}" />
+	</ui:define>
+	
+		
+	<ui:define name="table">
+		<p:dataTable id="table" var="filial" widgetVar="list" 
+			paginator="true"
+			lazy="true" 
+			paginatorPosition="bottom" 
+			value="#{filialView.list}"
+			selectionMode="single"
+			selection="#{filialView.bean}" 
+			rowKey="#{filial.id}"
+			rows="#{filialView.rows}"
+			paginatorTemplate="#{filialView.getPaginationTemplate()}"
+			rowsPerPageTemplate="#{filialView.rowsPerPage}"
+			emptyMessage="#{filialView.getEmptyListMessage()}">
+
+			<p:ajax event="rowSelect" listener="#{filialView.onRowSelect}" update=":form:table" />
+
+			<p:column headerText="#{msgs.lbl_sigla}">
+				#{filial.sigla}
+			</p:column>
+
+			<p:column headerText="#{msgs.lbl_razao_social}">
+				#{filial.razaoSocial}
+			</p:column>
+
+			<p:column headerText="#{msgs.lbl_nome_fantasia}">
+				#{filial.nomeFantasia}
+			</p:column>
+
+			<p:column headerText="#{msgs.lbl_cnpj}">
+				#{filial.cnpj}
+			</p:column>
+
+			<p:column headerText="#{msgs.lbl_inscricao_municipal}">
+				#{filial.inscricaoMunicipal}
+			</p:column>
+
+			<p:column headerText="#{msgs.lbl_inscricao_estadual}">
+				#{filial.inscricaoEstadual}
+			</p:column>
+
+		</p:dataTable>
+	</ui:define>
+
+</ui:composition>

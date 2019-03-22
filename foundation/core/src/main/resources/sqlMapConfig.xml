@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC 
+	"-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+
+	<settings>
+		<setting name="lazyLoadingEnabled" value="false" />
+		<setting name="jdbcTypeForNull" value="NULL"/>
+		<setting name="cacheEnabled" value="false"/>
+		<setting name="logImpl" value="LOG4J"/>
+	</settings>
+
+	<mappers>
+		<mapper resource="query-ibatis-seguranca.xml"/>
+		<mapper resource="query-ibatis-cadastro.xml"/>		
+		<mapper resource="query-ibatis-monitoramento.xml"/>
+	</mappers>
+	
+</configuration>

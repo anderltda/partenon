@@ -1,0 +1,89 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:util="http://java.sun.com/jsf/composite/util"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:project="http://project.com.br/tags"
+	template="/WEB-INF/seguranca/template.xhtml">
+
+	<ui:define name="title">
+		<i class="fa fa-user"></i> #{msgs.tit_usuario}
+	</ui:define>
+
+	<ui:define name="content">
+
+		<h:form id="form">
+			<script type="text/javascript">
+				$(document).ready(function() {
+					$("#form\\:lbl_login").focus();
+				});
+			</script>
+
+			<section class="content">
+				<div class="box">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="box-body">
+								<div class="form-group">
+									<div class="col-md-6">
+										<h:outputLabel value="#{msgs.lbl_login}" for="lbl_login" />
+										<div class="input-group">
+											<div class="input-group-addon">
+												<i class="fa fa-user"></i>
+											</div>
+											<p:inputText id="lbl_login" value="#{usuarioView.bean.login}" disabled="#{usuarioView.disabled}" required="true" label="#{msgs.lbl_login}">
+												<f:validateLength minimum="3" maximum="100" />
+											</p:inputText>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<h:outputLabel value="#{msgs.lbl_ativo}" for="lbl_ativo" />
+										<div class="input-group">
+											<p:selectOneMenu id="lbl_ativo" style="width: 100px" value="#{usuarioView.bean.ativo}" disabled="#{usuarioView.disabled}" required="true" label="#{msgs.lbl_ativo}">
+												<f:selectItem itemLabel="#{msgs.lbl_sim}" itemValue="S" />
+												<f:selectItem itemLabel="#{msgs.lbl_nao}" itemValue="N" />
+											</p:selectOneMenu>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="box-body">
+								<div class="form-group">
+									<div class="col-md-6">
+										<h:outputLabel value="#{msgs.lbl_nome}" for="lbl_nome" />
+										<div class="input-group">
+											<div class="input-group-addon">
+												<i class="fa fa-align-justify"></i>
+											</div>
+											<p:inputText id="lbl_nome" value="#{usuarioView.bean.nome}" disabled="#{usuarioView.disabled}" required="true" label="#{msgs.lbl_nome}">
+												<f:validateLength minimum="3" maximum="100" />
+											</p:inputText>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<h:outputLabel value="#{msgs.lbl_email}" for="lbl_email" />
+										<div class="input-group">
+											<div class="input-group-addon">
+												<i class="fa fa-envelope"></i>
+											</div>
+											<p:inputText id="lbl_email" value="#{usuarioView.bean.email}" disabled="#{usuarioView.disabled}" required="true" label="#{msgs.lbl_email}">
+												<f:validateLength minimum="3" maximum="100" />
+												<f:validator validatorId="custom.emailValidator" />
+												<pe:keyFilter regEx="/[a-z0-9_\.\-@]/i" />
+											</p:inputText>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<util:formButtons view="#{usuarioView}" />
+			</section>
+		</h:form>
+	</ui:define>
+</ui:composition>

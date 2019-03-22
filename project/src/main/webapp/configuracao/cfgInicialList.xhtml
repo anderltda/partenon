@@ -1,0 +1,53 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:project="http://project.com.br/tags"
+	xmlns:util="http://java.sun.com/jsf/composite/util"
+	xmlns:p="http://primefaces.org/ui">
+
+	
+	<h:form id="#{cfgInicialController.beanFormName}">
+		<p:dataTable id="list" var="cfgInicial"  value="#{cfgInicialController.model}" rows="#{cfgInicialController.rowsPerPage}" paginator="true" paginatorTemplate="#{cfgInicialController.getPaginationTemplate()}" paginatorPosition="top" emptyMessage="#{cfgInicialController.getEmptyListMessage()}"  styleClass="ui-datatable-complex" widgetVar="list">
+			<f:facet name="header">
+				<h:outputText value="#{msgs.tit_cfgInicial}"/>
+				<project:filter id="cfgInicialFilter" beanManager="#{cfgInicialController.beanManager}"/>
+			</f:facet>					
+					
+			<p:column sortBy="#{cfgInicial.codigo}" style="width: 120px">
+				<f:facet name="header">#{msgs.lbl_codigo}</f:facet>
+				<h:outputText value="#{cfgInicial.id}">
+				</h:outputText>
+			</p:column>										
+
+			<p:column sortBy="#{cfgInicial.chave}" style="width: 120px;">
+				<f:facet name="header">#{msgs.lbl_chave}</f:facet>
+				<h:outputText value="#{cfgInicial.chave}">
+				</h:outputText>
+			</p:column>				
+		
+			<p:column sortBy="#{cfgInicial.valor}" style="width: 120px;">
+				<f:facet name="header">#{msgs.lbl_valor}</f:facet>
+				<h:outputText value="#{cfgInicial.valor}"/>
+			</p:column>
+
+			<p:column sortBy="#{cfgInicial.descricao}">
+				<f:facet name="header">#{msgs.lbl_descricao}</f:facet>
+				<h:outputText value="#{cfgInicial.descricao}"/>
+			</p:column>
+			
+			<p:column style="width: 250px; text-align: center;" >
+				<f:facet name="header"></f:facet>
+				<p:commandButton value="#{msgs.btn_view}" action="#{cfgInicialController.view}" immediate="true" ajax="false">
+					<f:setPropertyActionListener value="#{cfgInicial}" target="#{cfgInicialController.bean}" />
+				</p:commandButton>
+				<p:commandButton value="#{msgs.btn_edit}" action="#{cfgInicialController.edit}" immediate="true" ajax="false">
+					<f:setPropertyActionListener value="#{cfgInicial}" target="#{cfgInicialController.bean}" />
+				</p:commandButton>				
+				
+			</p:column>
+			
+		</p:dataTable>
+	</h:form>
+	
+</html>

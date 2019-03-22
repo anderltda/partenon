@@ -1,0 +1,59 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:util="http://java.sun.com/jsf/composite/util"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:project="http://project.com.br/tags"
+	template="/WEB-INF/cadastro/template.xhtml">
+
+	<ui:define name="title"><i class="fa fa-car"></i> #{msgs.tit_motorista}</ui:define>	
+		
+	<ui:define name="filter">		
+		<project:form id="motoristaViewFilter" view="#{motoristaView}" />	
+	</ui:define>
+
+
+	<ui:define name="buttonFilter">		
+		<util:filterButtons view="#{motoristaView}"/>							
+	</ui:define>	
+
+	
+	<ui:define name="table">
+		<p:dataTable id="table" var="motorista" widgetVar="list"
+			paginator="true" 
+			lazy="true" 
+			paginatorPosition="bottom"
+			selectionMode="single"
+			value="#{motoristaView.list}" 
+			selection="#{motoristaView.bean}"
+			rowKey="#{motorista.id}" 
+			rows="#{motoristaView.rows}"
+			paginatorTemplate="#{filialView.getPaginationTemplate()}"
+			rowsPerPageTemplate="#{motoristaView.rowsPerPage}"
+			emptyMessage="#{motoristaView.getEmptyListMessage()}">
+
+			<p:ajax event="rowSelect" listener="#{motoristaView.onRowSelect}" update=":form:table" />
+
+			<p:column headerText="#{msgs.lbl_cpf_cnpj}">
+				#{motorista.cpf}
+			</p:column>
+
+			<p:column headerText="#{msgs.lbl_nome}">
+				#{motorista.nome}
+			</p:column>
+			
+			<p:column headerText="#{msgs.lbl_cnh}">
+				#{motorista.numeroCnh}
+			</p:column>
+
+			<p:column headerText="#{msgs.lbl_rg}">
+				#{motorista.rg}
+			</p:column>
+
+		</p:dataTable>	
+	</ui:define>
+
+	
+</ui:composition>

@@ -1,0 +1,24 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:util="http://java.sun.com/jsf/composite/util"
+	xmlns:p="http://primefaces.org/ui">
+
+	<util:selectSingleDialog nameDialog="#{nameDialog}" title="#{title}" update="#{update}" receiveBeanView="#{receiveBeanView}" addOnBeanView="#{addOnBeanView}">
+		
+		<p:column headerText="#{msgs.lbl_sigla}" style="width:5px">
+			<h:outputText value="#{bean.sigla}" />
+		</p:column>
+
+		<p:column headerText="#{msgs.lbl_razao_social}" style="width:70px">
+			<h:outputText value="#{bean.razaoSocial}" />
+		</p:column>
+
+		<p:column headerText="#{msgs.lbl_cnpj}" style="width:70px">
+			<h:outputText value="#{bean.cnpj}" />
+		</p:column>
+
+	</util:selectSingleDialog>	
+</html>
+	

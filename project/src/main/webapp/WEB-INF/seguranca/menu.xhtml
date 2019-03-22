@@ -1,0 +1,46 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+
+	<li class="active">
+	<h:commandLink action="/seguranca/index.xhtml">
+		<i class="fa fa-lock"></i>
+		<span><h:outputText value="Home" /></span>
+	</h:commandLink></li>
+
+
+	<!-- Start Segurança -->
+	<li class="treeview">
+		<a href="#"> 
+			<i class="fa fa-plus-square"></i> 
+			<span><h:outputText value="#{msgs.menu_cadastro}" /></span> 
+			<i class="fa fa-angle-left pull-right"></i> 
+		</a>
+		<ul class="treeview-menu">
+			<li class="treeview">
+				<li>
+					<p:commandLink action="#{usuarioView.getSearchPage()}">
+						<i class="fa fa-user"></i>
+						<span><h:outputText value="#{msgs.menu_seguranca_usuario}" /></span>
+						<!-- <small class="badge pull-right bg-green">new</small> -->
+					</p:commandLink>
+				</li>
+			</li>
+		</ul>
+	</li>
+	<!-- End Segurança -->
+
+
+	<!-- Start Sair -->
+	<li>
+		<p:commandLink action="#{loginView.home()}">
+			<i class="fa fa-sign-in"></i>
+			<span><h:outputText value="Sair" /></span>
+		</p:commandLink>
+	</li>
+	<!-- Start Sair -->
+
+</ui:composition>

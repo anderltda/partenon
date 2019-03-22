@@ -1,0 +1,108 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:project="http://project.com.br/tags"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:p="http://primefaces.org/ui">
+
+	<div id="modal-email" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">x</button>
+					<h4 class="modal-title">
+						<i class="fa fa-envelope-o"></i> #{msgs.tit_enviar_email}
+					</h4>
+				</div>
+
+				<h:form id="form-email" enctype="multipart/form-data">
+					<div class="modal-body">
+						<div class="form-group">
+							<div class="input-group">
+								<h:outputLabel styleClass="input-group-addon"
+									value="#{msgs.lbl_email_to}" />
+								<p:inputText id="lbl_email" type="email"
+									value="#{emailView.emailTo}">
+									<f:validator validatorId="custom.emailValidator" />
+									<f:validateLength minimum="2" maximum="100" />
+									<pe:keyFilter regEx="/[a-z0-9_\.\-@]/i" />
+								</p:inputText>
+
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="input-group">
+								<h:outputLabel styleClass="input-group-addon"
+									value="#{msgs.lbl_email_cc}" />
+								<p:inputText id="lbl_email_cc" type="email"
+									value="#{emailView.emailCc}">
+									<f:validator validatorId="custom.emailValidator" />
+									<f:validateLength minimum="2" maximum="100" />
+									<pe:keyFilter regEx="/[a-z0-9_\.\-@]/i" />
+								</p:inputText>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="input-group">
+								<h:outputLabel styleClass="input-group-addon"
+									value="#{msgs.lbl_email_bcc}" />
+								<p:inputText id="lbl_email_bcc" value="#{emailView.emailBcc}">
+									<f:validator validatorId="custom.emailValidator" />
+									<f:validateLength minimum="2" maximum="100" />
+									<pe:keyFilter regEx="/[a-z0-9_\.\-@]/i" />
+								</p:inputText>
+							</div>
+						</div>
+						<div class="form-group">
+							<p:inputTextarea id="lbl_email_message"
+								value="#{emailView.message}" placeholder="Messagem" rows="10"
+								cols="30" counter="display" maxlength="800"
+								counterTemplate="{0} characters remaining." />
+							<h:outputText id="display" />
+						</div>
+
+						<!--  						
+						<div class="form-group">
+							<div class="btn btn-success btn-file">
+								<i class="fa fa-paperclip"></i> Attachment <input type="file"
+									name="attachment" />
+							</div>
+							<p class="help-block">Max. 32MB</p>
+						</div>
+						-->
+
+					</div>
+					<div class="modal-footer clearfix">
+						<p:commandButton value="Send" styleClass="btn btn-primary pull-left fa fa-envelope" action="#{emailView.send}" data-dismiss="modal" />
+						<p:commandButton value="Discard" styleClass="btn btn-danger pull-left fa fa-times" data-dismiss="modal" immediate="true" />
+					</div>
+				</h:form>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="modal fade" id="modal-help" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">x</button>
+					<h4 class="modal-title">
+						<i class="fa fa-question-circle"></i> Help #{view.id}
+					</h4>
+				</div>
+				<h:form id="form-help">
+					<div class="modal-body">
+						<project:breadcrumb user="#{sessionScope.LOGGED_USER}" />
+					</div>
+					<div class="modal-footer clearfix"></div>
+				</h:form>
+			</div>
+		</div>
+	</div> 
+
+
+</ui:composition>

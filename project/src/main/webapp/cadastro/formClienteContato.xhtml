@@ -1,0 +1,106 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:util="http://java.sun.com/jsf/composite/util"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:project="http://project.com.br/tags"
+	template="/WEB-INF/cadastro/template.xhtml">
+
+	<ui:define name="title"><i class="fa fa-group"></i> #{msgs.tit_cliente_contato} - #{clienteContatoView.beanMaster.razaoSocial} </ui:define>
+
+	<ui:define name="content">
+		<h:form id="form">
+			<section class="content">
+				<div class="box">
+					<div class="row">
+						
+						<div class="col-md-12">
+							<div class="box-body">
+								<div class="col-md-6">
+									<h:outputLabel value="#{msgs.lbl_nome}" for="lbl_nome" />
+									<div class="input-group">
+										<div class="input-group-addon">
+											<i class="fa fa-align-justify"></i>
+										</div>
+										<p:inputText id="lbl_nome" value="#{clienteContatoView.bean.nome}" disabled="#{clienteContatoView.disabled}" required="true" label="#{msgs.lbl_nome}">
+											<f:validateLength minimum="3" maximum="100" />
+										</p:inputText>
+									</div>
+								</div>
+								
+								<div class="col-md-6">
+									<h:outputLabel value="#{msgs.lbl_cargo}" for="lbl_cargo" />
+									<div class="input-group">
+										<div class="input-group-addon">
+											<i class="fa fa-bars"></i>
+										</div>
+										<p:inputText id="lbl_cargo" maxlength="50" value="#{clienteContatoView.bean.cargo}" disabled="#{clienteContatoView.disabled}" required="false" label="#{msgs.lbl_cargo}" />
+									</div>
+								</div>
+																
+								
+								<div class="col-md-5">
+									<h:outputLabel value="#{msgs.lbl_telefone}" for="lbl_telefone" />
+									<div class="input-group">
+										<div class="input-group-addon">
+											<i class="fa fa-phone"></i>
+										</div>
+										<p:inputMask mask="(99) 9999-9999" id="lbl_telefone" value="#{clienteContatoView.bean.telefone}" disabled="#{clienteContatoView.disabled}" required="true" label="#{msgs.lbl_telefone}" />
+									</div>
+								</div>
+								
+								<div class="col-md-1">
+									<h:outputLabel value="#{msgs.lbl_ramal}" for="lbl_ramal" />
+									<div class="input-group">
+										<p:inputText id="lbl_ramal" maxlength="4" value="#{clienteContatoView.bean.ramal}" disabled="#{clienteContatoView.disabled}" required="false" label="#{msgs.lbl_ramal}">
+											<pe:keyFilter regEx="/[0-9_]/i" />
+										</p:inputText>
+									</div>
+								</div>
+																	
+								<div class="col-md-3">
+									<h:outputLabel value="#{msgs.lbl_celular}" for="lbl_celular" />
+									<div class="input-group">
+										<div class="input-group-addon">
+											<i class="fa fa-mobile"></i>
+										</div>
+										<p:inputMask mask="(99) 9999-9999" id="lbl_celular" value="#{clienteContatoView.bean.celular}" disabled="#{clienteContatoView.disabled}" required="true" label="#{msgs.lbl_celular}" />
+									</div>
+								</div>								   							
+
+								<div class="col-md-6">
+									<h:outputLabel value="#{msgs.lbl_email}" for="lbl_email" />
+									<div class="input-group">
+										<div class="input-group-addon">
+											<i class="fa fa-envelope"></i>
+										</div>
+										<p:inputText id="lbl_email" value="#{clienteContatoView.bean.email}" disabled="#{clienteContatoView.disabled}" required="true" label="#{msgs.lbl_email}">
+											<f:validateLength minimum="3" maximum="50" />
+											<f:validator validatorId="custom.emailValidator" />
+											<pe:keyFilter regEx="/[a-z0-9_\.\-@]/i" />
+										</p:inputText>
+									</div>
+								</div>
+								
+								<div class="col-md-6">
+									<h:outputLabel value="#{msgs.lbl_data_aniversario}" for="lbl_data_aniversario" />
+									<div class="input-group">
+										<div class="input-group-addon">
+											<i class="fa fa-calendar"></i>
+										</div>
+										<p:calendar id="lbl_data_aniversario" value="#{clienteContatoView.bean.dataAniversario}" disabled="#{motoristaView.disabled}" required="false" label="#{msgs.lbl_data_aniversario}" pattern="dd/MM" mask="true" />
+									</div>
+								</div>
+																	
+							</div>
+						</div>
+						
+					</div>
+				</div>
+				<util:formButtons view="#{clienteContatoView}" />
+			</section>
+		</h:form>
+	</ui:define>
+</ui:composition>

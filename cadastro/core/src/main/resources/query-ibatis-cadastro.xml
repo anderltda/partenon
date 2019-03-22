@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cadastro">
+
+	<resultMap id="filial" type="br.com.project.commons.cadastro.entity.Filial">
+		<result property="id"                                          column="SIGLA" />
+		<result property="cnpj"                                        column="CNPJ" />
+		<result property="categoria"                                   column="CATEGORIA" />
+		<result property="inscMunicipal"                               column="INSC_MUNICIPAL" />
+		<result property="inscEstadual"                                column="INSC_ESTADUAL" />
+		<result property="responsavel"                                 column="RESPONSAVEL" />
+		<result property="razaoSocial"                                 column="RAZAO_SOCIAL" />
+		<result property="nomeFantasia"                                column="NOME_FANTASIA" />
+		<result property="cep"                                         column="CEP" />
+		<result property="logradouro"                                  column="ENDERECO" />
+		<result property="numero"                                      column="NUMERO" />
+		<result property="complemento"                                 column="COMPLEMENTO" />
+		<result property="bairro"                                      column="BAIRRO" />
+		<result property="cidade"                                      column="CIDADE" />
+		<result property="uf"                                          column="ESTADO" />
+		<result property="telefone1"                                   column="TELEFONE1" />
+		<result property="telefone2"                                   column="TELEFONE2" />
+		<result property="logotipo"                                    column="LOGOTIPO" jdbcType="BLOB"/> 
+		<result property="certificadoCte"    						   column="CERTIFICADO_CTE" />
+		<result property="ambienteCte"       						   column="AMBIENTE_CTE" />
+		<result property="copiasCte"         						   column="COPIAS_CTE" />
+		<result property="validadeConhecimentoTransporteEletronico"    column="VALIDADE_CTE" />
+		<result property="localXmlCte"       						   column="LOCAL_XML_CTE" />
+		<result property="localSchemaCte"                              column="LOCAL_SCHEMA_CTE" />
+		<result property="localDacteCte"                               column="LOCAL_DACTE_CTE" />
+		<result property="certificadoNfe"                              column="CERTIFICADO_NFE" />
+		<result property="ambienteNfe"                                 column="AMBIENTE_NFE" />
+		<result property="copiasNfe"                                   column="COPIAS_NFE" />            
+		<result property="validadeNotaFiscalEletronica"       		   column="VALIDADE_NFE" />
+		<result property="localXmlNfe"                                 column="LOCAL_XML_NFE" />
+		<result property="localSchemaNfe"                              column="LOCAL_SCHEMA_NFE" />
+		<result property="localDanfeNfe"                               column="LOCAL_DANFE_NFE" />
+		<result property="usuarioEmail"                                column="USUARIO_EMAIL" />
+		<result property="senhaEmail"                                  column="SENHA_EMAIL" />
+		<result property="enderecoEmail"                               column="ENDERECO_EMAIL" />
+		<result property="popEmail"                                    column="POP_EMAIL" />
+		<result property="smtpEmail"                                   column="SMTP_EMAIL" />
+		<result property="portaPopEmail"                               column="PORTA_POP_EMAIL" />
+		<result property="portaSmtpEmail"                              column="PORTA_SMTP_EMAIL" />
+		<result property="autenticacaoEmail"                           column="AUTENTICACAO_EMAIL" />
+		<result property="idUsuarioCriacao"                            column="ID_USUARIO_CRIACAO" />
+		<result property="dataAlteracao"                               column="DATA_ALTERACAO" />
+		<result property="criacaoUsuario"                              column="CRIACAO_USUARIO" />
+		<result property="dataCriacao"                                 column="DATA_CRIACAO" />
+		<result property="size"                                        column="TOTAL" />        
+	</resultMap>	
+	
+	
+    <resultMap id="endereco" type="br.com.project.commons.cadastro.entity.Endereco">
+        <result property="id"           column="ID_ENDERECO"/>
+        <result property="cep"          column="CEP"/>
+        <result property="logradouro"   column="LOGRADOURO"/>
+        <result property="bairro"       column="BAIRRO"/>
+        <result property="cidade"       column="CIDADE"/>
+        <result property="uf"           column="UF"/>
+        <result property="size"         column="TOTAL" />  
+	</resultMap>	
+	
+
+	<select id="buscarFiliais" parameterType="java.util.Map" resultMap="filial">
+		
+		${instruction} from filial where 1=1
+		
+		<foreach item="item" index="key" collection="conditions.entrySet()">
+ 			and (${key} ${item})
+ 		</foreach>		
+		
+		order by sigla asc
+		
+	</select>
+	
+	
+	<select id="buscarEndereco" parameterType="br.com.project.commons.cadastro.entity.Endereco" resultMap="endereco">
+		select e.* from endereco e where 1=1		       
+	      
+	      <if test="cep != null">
+	        and e.cep = #{cep}
+	      </if>	  
+	          	    
+	      <if test="logradouro != null">
+	        and e.logradouro like #{logradouro}
+	      </if>	  
+	      
+	      <if test="cidade != null">
+	        and e.cidade like #{cidade}
+	      </if>
+	      
+	      <if test="uf != null">
+	        and e.uf = #{uf}
+	      </if>	      	  	      
+	      	      
+	      order by id_endereco asc
+	</select>		   
+
+</mapper>

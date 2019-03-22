@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-reverse-engineering-3.0.dtd" >
+
+<hibernate-reverse-engineering>
+	<type-mapping>
+		<sql-type jdbc-type="DECIMAL" hibernate-type="java.lang.Boolean"
+			scale="0" precision="1">
+		</sql-type>
+
+		<sql-type jdbc-type="DECIMAL" hibernate-type="java.lang.Long"
+			scale="0" precision="20">
+		</sql-type>
+
+		<sql-type jdbc-type="DECIMAL" hibernate-type="java.lang.Integer"
+			scale="0" precision="10">
+		</sql-type>
+
+		<sql-type jdbc-type="DECIMAL" hibernate-type="java.lang.Integer"
+			scale="0" precision="28">
+		</sql-type>
+
+		<sql-type jdbc-type="DATE" hibernate-type="java.util.Date"></sql-type>
+
+		<sql-type jdbc-type="TIMESTAMP"
+			hibernate-type="java.util.Date">
+		</sql-type>
+	</type-mapping>
+
+</hibernate-reverse-engineering>

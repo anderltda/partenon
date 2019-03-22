@@ -1,0 +1,67 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:util="http://java.sun.com/jsf/composite/util"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:project="http://project.com.br/tags"
+	template="/WEB-INF/seguranca/template.xhtml">
+
+	<ui:define name="title"><i class="fa fa-user"></i> #{msgs.menu_seguranca_usuario}</ui:define>
+		
+	<ui:define name="filter">		
+		<project:form id="usuarioViewFilter" view="#{usuarioView}" />
+	</ui:define>
+	
+	
+	<ui:define name="buttonFilter">		
+		<util:filterButtons view="#{usuarioView}"/>							
+	</ui:define>
+	
+	
+	<ui:define name="table">
+
+		<p:dataTable id="table" var="usuario" widgetVar="list"
+			paginator="true" 
+			lazy="true" 
+			paginatorPosition="bottom"
+			selectionMode="single"
+			value="#{usuarioView.list}" 
+			selection="#{usuarioView.bean}"
+			rowKey="#{usuario.id}" 
+			rows="#{usuarioView.rows}"
+			paginatorTemplate="#{filialView.getPaginationTemplate()}"
+			rowsPerPageTemplate="#{usuarioView.rowsPerPage}"
+			emptyMessage="#{usuarioView.getEmptyListMessage()}">
+
+			<p:ajax event="rowSelect" listener="#{usuarioView.onRowSelect}"	update=":form:table" />
+
+			<p:column headerText="#{msgs.lbl_login}">
+				<h:outputText value="#{usuario.login}" />
+			</p:column>
+
+			<p:column headerText="#{msgs.lbl_nome}">
+				<h:outputText value="#{usuario.nome}" />
+			</p:column>
+
+			<p:column headerText="#{msgs.lbl_email}">
+				<h:outputText value="#{usuario.email}" />
+			</p:column>
+
+			<p:column headerText="#{msgs.lbl_data_ultimo_acesso}">
+				<h:outputText value="#{usuario.dataUltimoAcesso}">
+					<f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+				</h:outputText>
+			</p:column>
+			
+			<p:column headerText="#{msgs.lbl_ativo}">
+				<p:outputPanel rendered="#{usuario.ativo == 'S'}"><i class="fa fa-check-square-o"></i></p:outputPanel>
+				<p:outputPanel rendered="#{usuario.ativo == 'N'}"><i class="fa fa-square"></i></p:outputPanel>				
+			</p:column>
+
+		</p:dataTable>
+							
+	</ui:define>
+
+</ui:composition>

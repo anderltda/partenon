@@ -1,0 +1,33 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+            xmlns:h="http://java.sun.com/jsf/html"
+            xmlns:f="http://java.sun.com/jsf/core"
+            xmlns:ui="http://java.sun.com/jsf/facelets"
+            xmlns:p="http://primefaces.org/ui">
+
+		<li class="active">
+	        <h:commandLink action="/monitoramento/index.xhtml">
+				<i class="fa fa-globe"></i>
+				<span><h:outputText value="Home"/></span>
+			</h:commandLink>
+		</li>		
+
+		<!-- Start Monitormamento -->
+		<li>								
+             <p:commandLink action="#{posicaoVeiculoView.getSearchPage()}">
+				<i class="fa fa-location-arrow"></i>
+				<span><h:outputText value="#{msgs.menu_monitoramento_posicao_veiculo}"/></span>
+			</p:commandLink>
+		</li>
+		<!-- End Monitormamento -->			
+
+
+		<!-- Start Sair -->
+		<li>
+	        <p:commandLink action="#{loginView.home()}">
+				<i class="fa fa-sign-in"></i>
+				<span><h:outputText value="Sair"/></span>
+			</p:commandLink>
+		</li>
+		<!-- Start Sair -->		
+		
+</ui:composition>

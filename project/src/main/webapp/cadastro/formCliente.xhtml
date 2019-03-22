@@ -1,0 +1,332 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:util="http://java.sun.com/jsf/composite/util"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:project="http://project.com.br/tags"
+	template="/WEB-INF/cadastro/template.xhtml">
+
+	<ui:define name="title"><i class="fa fa-group"></i> #{msgs.tit_cliente}</ui:define>
+
+	<ui:define name="content">
+
+			<script type="text/javascript">
+				$(document).ready(function() {					
+					
+					$("#form\\:lbl_cpf_cnpj").focus();	
+														
+					$("#abaClienteCobrancaView" ).click(function() {
+					  abaClienteCobrancaView();
+					});	
+					
+					$("#abaClienteContatoView" ).click(function() {
+					  abaClienteContatoView();
+					});
+															
+				});
+			</script>
+
+			<section class="content">			
+				
+				<div class="nav-tabs-custom">
+					
+					<!-- abas -->
+					<project:tab id="clienteViewTab" name="Dados Cadastrais" view="#{clienteView}"/>
+					<!-- abas -->					   					
+
+					<div class="tab-content no-padding">
+
+						<!-- Aba Dados Cadastrais -->
+						<div id="dadoClienteView" class="tab-pane active" style="position: relative;">
+							<h:form id="form">
+							
+								<!-- aba_cobranca -->
+								<pe:remoteCommand name="abaClienteCobrancaView" update=":formClienteCobrancaViewFilter" actionListener="#{clienteCobrancaView.search}"/>	
+								
+								<!-- aba_contato -->
+								<pe:remoteCommand name="abaClienteContatoView" update=":formClienteContatoViewFilter" actionListener="#{clienteContatoView.search}"/>													
+								
+								<div class="box">
+									<div class="row">
+										<div class="col-md-12">
+											<div class="box-body">
+												<div class="col-md-4">
+													<h:outputLabel value="#{msgs.lbl_cpf_cnpj}" for="lbl_cpf_cnpj" />
+													<div class="input-group">
+														<div class="input-group-addon">
+															<i class="fa fa-building-o"></i>
+														</div>
+														<p:inputText id="lbl_cpf_cnpj" maxlength="18" style="font-weight:bolder;" value="#{clienteView.bean.cnpj}" disabled="#{clienteView.disabled}" required="true" label="#{msgs.lbl_cpf_cnpj}" onkeyup="util.formatCnpjCpf(this);">
+															<pe:keyFilter regEx="/[0-9_]/i" />
+														</p:inputText>
+													</div>
+												</div>
+												<div class="col-md-8">
+													<h:outputLabel value="#{msgs.lbl_razao_social}" for="lbl_razao_social" />
+													<div class="input-group">
+														<div class="input-group-addon">
+															<i class="fa fa-bars"></i>
+														</div>
+														<p:inputText id="lbl_razao_social" value="#{clienteView.bean.razaoSocial}" disabled="#{clienteView.disabled}" required="true" label="#{msgs.lbl_razao_social}">
+															<f:validateLength minimum="10" maximum="200" />
+															<p:ajax event="blur" update=":form:lbl_nome_fantasia" listener="#{clienteView.preencherNomeFantasia}" />
+														</p:inputText>
+													</div>
+												</div>
+												<div class="col-md-9">
+													<h:outputLabel value="#{msgs.lbl_nome_fantasia}" for="lbl_nome_fantasia" />
+													<div class="input-group">
+														<div class="input-group-addon">
+															<i class="fa fa-bars"></i>
+														</div>
+														<p:inputText id="lbl_nome_fantasia" value="#{clienteView.bean.nomeFantasia}" disabled="#{clienteView.disabled}" required="true" label="#{msgs.lbl_nome_fantasia}">
+															<f:validateLength minimum="10" maximum="200" />
+														</p:inputText>
+													</div>
+												</div>
+												<div class="col-md-3">
+													<h:outputLabel value="#{msgs.lbl_tipo_contribuinte}" for="lbl_tipo_contribuinte" />
+													<div class="input-group">
+														<p:selectOneMenu id="lbl_tipo_contribuinte" style="width: 160px;" value="#{clienteView.bean.tipoContribuinte.id}" disabled="#{clienteView.disabled}" required="true" label="#{msgs.lbl_tipo_contribuinte}">
+															<f:selectItem itemLabel="" itemValue="" />
+															<f:selectItems value="#{clienteView.tiposContribuintes}" var="tipo" itemLabel="#{tipo.nome}" itemValue="#{tipo.id}" />
+														</p:selectOneMenu>
+													</div>
+												</div>
+												<p:outputPanel id="endereco">
+													<div class="col-md-3">
+														<h:outputLabel value="#{msgs.lbl_cep}" for="lbl_cep" />
+														<div class="input-group input-group-sm">
+															<p:inputMask mask="99999-999" id="lbl_cep" value="#{clienteView.bean.endereco.cep}" disabled="#{clienteView.disabled}" required="false" label="#{msgs.lbl_cep}">
+																<p:ajax event="blur" update=":form:endereco" listener="#{clienteView.handleBlurEventSearchCep}" oncomplete="config.tabChangeEvent();" />
+															</p:inputMask>
+															<span class="input-group-btn"> 
+																<p:commandButton value="" styleClass="btn btn-default btn-sm fa fa-binoculars" disabled="#{clienteView.disabled}" immediate="true" modal="#singleDialogEndereco" /> 
+															</span>
+														</div>
+													</div>
+													<div class="col-md-8">
+														<h:outputLabel value="#{msgs.lbl_logradouro}" for="lbl_logradouro" />
+														<div class="input-group">
+															<div class="input-group-addon">
+																<i class="fa fa-bars"></i>
+															</div>
+															<p:inputText id="lbl_logradouro" maxlength="200" value="#{clienteView.bean.endereco.logradouro}" disabled="#{clienteView.disabled}" required="false" label="#{msgs.lbl_logradouro}" />
+														</div>
+													</div>
+													<div class="col-md-1">
+														<h:outputLabel value="#{msgs.lbl_numero}" for="lbl_numero" />
+														<div class="input-group">
+															<p:inputText id="lbl_numero" maxlength="7" value="#{clienteView.bean.endereco.numero}" disabled="#{clienteView.disabled}" required="false" label="#{msgs.lbl_numero}">
+																<pe:keyFilter regEx="/[0-9_]/i" />
+															</p:inputText>
+														</div>
+													</div>
+													<div class="col-md-6">
+														<h:outputLabel value="#{msgs.lbl_complemento}" for="lbl_complemento" />
+														<div class="input-group">
+															<div class="input-group-addon">
+																<i class="fa fa-bars"></i>
+															</div>
+															<p:inputText id="lbl_complemento" value="#{clienteView.bean.endereco.complemento}" disabled="#{clienteView.disabled}" required="false" label="#{msgs.lbl_complemento}" />
+														</div>
+													</div>
+													<div class="col-md-5">
+														<h:outputLabel value="#{msgs.lbl_bairro}" for="lbl_bairro" />
+														<div class="input-group">
+															<div class="input-group-addon">
+																<i class="fa fa-bars"></i>
+															</div>
+															<p:inputText id="lbl_bairro" value="#{clienteView.bean.endereco.bairro}" disabled="#{clienteView.disabled}" required="false" label="#{msgs.lbl_bairro}" />
+														</div>
+													</div>
+													<div class="col-md-6">
+														<h:outputLabel value="#{msgs.lbl_cidade}" for="lbl_cidade" />
+														<div class="input-group">
+															<div class="input-group-addon">
+																<i class="fa fa-bars"></i>
+															</div>
+															<p:inputText id="lbl_cidade" value="#{clienteView.bean.endereco.cidade}" disabled="#{clienteView.disabled}" required="false" label="#{msgs.lbl_cidade}" />
+														</div>
+													</div>
+													<div class="col-md-3">
+														<h:outputLabel value="#{msgs.lbl_estado}" for="lbl_estado" />
+														<div class="input-group">
+															<p:selectOneMenu id="lbl_estado" value="#{clienteView.bean.endereco.uf}" disabled="#{clienteView.disabled}" required="false" label="#{msgs.lbl_estado}">
+																<f:selectItem itemLabel="" itemValue="" />
+																<f:selectItems value="#{clienteView.estados}" var="uf" itemLabel="#{uf.label}" itemValue="#{uf.value}" />
+																<p:ajax update=":form:lbl_inscricao_estadual" listener="#{clienteView.handleEventMask}" />
+															</p:selectOneMenu>
+														</div>
+													</div>
+												</p:outputPanel>
+												<div class="col-md-6">
+													<h:outputLabel value="#{msgs.lbl_filial_resp}" for="lbl_filial_resp" />
+													<div class="input-group input-group-sm">
+														<p:inputText id="lbl_filial_resp" value="#{clienteView.bean.filialResponsavel.sigla}" disabled="true" required="true" label="#{msgs.lbl_filial_resp}" />
+														<span class="input-group-btn"> 
+															<p:commandButton value="" styleClass="btn btn-default btn-sm fa fa-binoculars" actionListener="#{clienteView.openFilialResponsavelDialog}" disabled="#{clienteView.disabled}" immediate="true" modal="#singleDialogFilial" /> 
+														</span>
+													</div>
+												</div>
+												<div class="col-md-6">
+													<h:outputLabel value="#{msgs.lbl_filial_cobr}" for="lbl_filial_cobr" />
+													<div class="input-group input-group-sm">
+														<p:inputText id="lbl_filial_cobr" value="#{clienteView.bean.filialCobranca.sigla}" disabled="true" required="true" label="#{msgs.lbl_filial_cobr}" />
+														<span class="input-group-btn"> 
+															<p:commandButton value="" styleClass="btn btn-default btn-sm fa fa-binoculars" actionListener="#{clienteView.openFilialCobrancaDialog}" disabled="#{clienteView.disabled}" immediate="true" modal="#singleDialogFilial" /> 
+														</span>
+													</div>
+												</div>
+												<div class="col-md-6">
+													<h:outputLabel value="#{msgs.lbl_inscricao_municipal}" for="lbl_inscricao_municipal" />
+													<div class="input-group">
+														<div class="input-group-addon">
+															<i class="fa fa-bars"></i>
+														</div>
+														<p:inputText id="lbl_inscricao_municipal" maxlength="18" value="#{clienteView.bean.inscricaoMunicipal}" disabled="#{clienteView.disabled}" required="false" label="#{msgs.lbl_inscricao_municipal}">
+															<pe:keyFilter regEx="/[0-9_]/i" />
+														</p:inputText>
+													</div>
+												</div>
+												<div class="col-md-6">
+													<h:outputLabel value="#{msgs.lbl_inscricao_estadual}" for="lbl_inscricao_estadual" />
+													<div class="input-group">
+														<div class="input-group-addon">
+															<i class="fa fa-bars"></i>
+														</div>
+														<p:inputMask mask="#{clienteView.maskInsEstadual}" id="lbl_inscricao_estadual" maxlength="14" value="#{clienteView.bean.inscricaoEstadual}" disabled="#{clienteView.disabled}" required="true" label="#{msgs.lbl_inscricao_estadual}" />
+													</div>
+												</div>
+												<div class="col-md-6">
+													<h:outputLabel value="#{msgs.lbl_inscricao_suframa}" for="lbl_inscricao_suframa" />
+													<div class="input-group">
+														<div class="input-group-addon">
+															<i class="fa fa-bars"></i>
+														</div>
+														<p:inputText id="lbl_inscricao_suframa" maxlength="18" value="#{clienteView.bean.inscricaoSuframa}" disabled="#{clienteView.disabled}" required="false" label="#{msgs.lbl_inscricao_suframa}">
+															<pe:keyFilter regEx="/[0-9_]/i" />
+														</p:inputText>
+													</div>
+												</div>
+												<div class="col-md-6">
+													<h:outputLabel value="#{msgs.lbl_incentivo}" for="lbl_incentivo" />
+													<div class="input-group">
+														<p:selectOneMenu id="lbl_incentivo" value="#{clienteView.bean.incentivo}" disabled="#{clienteView.disabled}" required="true" label="#{msgs.lbl_incentivo}">
+															<f:selectItem itemLabel="" itemValue="" />
+															<f:selectItem itemValue="S" itemLabel="SIM" />
+															<f:selectItem itemValue="N" itemLabel="NÃO" />
+														</p:selectOneMenu>
+													</div>
+												</div>
+												<div class="col-md-2">
+													<h:outputLabel value="#{msgs.lbl_incentivo_percentual}" for="lbl_incentivo_percentual" />
+													<div class="input-group">
+														<div class="input-group-addon">
+															<i class="fa fa-bars"></i>
+														</div>
+														<p:inputText id="lbl_incentivo_percentual" maxlength="2" value="#{clienteView.bean.incentivoPercentual}" disabled="#{clienteView.disabled}" required="false" label="#{msgs.lbl_incentivo_percentual}">
+															<pe:keyFilter regEx="/[0-9_]/i" />
+														</p:inputText>
+													</div>
+												</div>
+												<div class="col-md-10">
+													<h:outputLabel value="#{msgs.lbl_incentivo_artigo}" for="lbl_incentivo_artigo" />
+													<div class="input-group">
+														<div class="input-group-addon">
+															<i class="fa fa-bars"></i>
+														</div>
+														<p:inputText id="lbl_incentivo_artigo" maxlength="100" value="#{clienteView.bean.incentivoArtigo}" disabled="#{clienteView.disabled}" required="false" label="#{msgs.lbl_incentivo_artigo}" />
+													</div>
+												</div>
+												<div class="col-md-2">
+													<h:outputLabel value="#{msgs.lbl_serie_nf}" for="lbl_serie_nf" />
+													<div class="input-group">
+														<div class="input-group-addon">
+															<i class="fa fa-bars"></i>
+														</div>
+														<p:inputText id="lbl_serie_nf" maxlength="3" value="#{clienteView.bean.serieNf}" disabled="#{clienteView.disabled}" required="false" label="#{msgs.lbl_serie_nf}">
+															<pe:keyFilter regEx="/[0-9_]/i" />
+														</p:inputText>
+													</div>
+												</div>
+												<div class="col-md-5">
+													<h:outputLabel value="#{msgs.lbl_telefone}" for="lbl_telefone" />
+													<div class="input-group">
+														<div class="input-group-addon">
+															<i class="fa fa-phone"></i>
+														</div>
+														<p:inputMask mask="(99) 9999-9999" id="lbl_telefone" value="#{clienteView.bean.telefone1}" disabled="#{clienteView.disabled}" required="true" label="#{msgs.lbl_telefone}" />
+													</div>
+												</div>
+												<div class="col-md-5">
+													<h:outputLabel value="#{msgs.lbl_telefone}" for="lbl_telefone_" />
+													<div class="input-group">
+														<div class="input-group-addon">
+															<i class="fa fa-phone"></i>
+														</div>
+														<p:inputMask mask="(99) 9999-9999" id="lbl_telefone_" value="#{clienteView.bean.telefone2}" disabled="#{clienteView.disabled}" required="true" label="#{msgs.lbl_telefone}" />
+													</div>
+												</div>
+												<div class="col-md-2">
+													<h:outputLabel value="#{msgs.lbl_status}" for="lbl_status" />
+													<div class="input-group">
+														<p:selectOneMenu id="lbl_status" value="#{clienteView.bean.status}" disabled="#{clienteView.disabled}" required="true" label="#{msgs.lbl_status}">
+															<f:selectItem itemLabel="" itemValue="" />
+															<f:selectItem itemValue="ATIVO" itemLabel="ATIVO" />
+															<f:selectItem itemValue="INATIVO" itemLabel="INATIVO" />
+															<f:selectItem itemValue="BLOQUEADO" itemLabel="BLOQUEADO" />
+															<f:selectItem itemValue="INADIMPLENTE" itemLabel="INADIMPLENTE" />
+														</p:selectOneMenu>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<util:formButtons view="#{clienteView}" />							
+							</h:form>
+						</div>
+						<!-- Aba Dados Cadastrais -->
+
+
+						<!-- Aba Dados da Cobrança -->
+						<div id="dadoClienteCobrancaView" class="chart tab-pane" style="position: relative;">							
+							<ui:include src="filterClienteCobranca.xhtml" />							
+						</div>
+						<!-- Aba Dados da Cobrança -->
+
+
+						<!-- Aba Contatos -->
+						<div id="dadoClienteContatoView" class="chart tab-pane" style="position: relative;">
+							<ui:include src="filterClienteContato.xhtml" />						
+						</div>
+						<!-- Aba Contatos -->
+
+					</div>
+
+				</div>
+
+			</section>
+
+
+	</ui:define>
+	<ui:define name="dialogs">
+		<ui:include src="/cadastro/dialog/enderecoDialog.xhtml">
+			<ui:param name="title" value="#{msgs.tit_endereco}" />
+			<ui:param name="nameDialog" value="singleDialogEndereco" />
+			<ui:param name="update" value=":form:endereco" />
+			<ui:param name="addOnBeanView" value="#{enderecoView}" />
+			<ui:param name="receiveBeanView" value="#{clienteView}" />
+		</ui:include>
+		<ui:include src="/cadastro/dialog/filialDialog.xhtml">
+			<ui:param name="title" value="#{msgs.tit_filial}" />
+			<ui:param name="nameDialog" value="singleDialogFilial" />
+			<ui:param name="update" value=":form:lbl_filial_resp :form:lbl_filial_cobr" />
+			<ui:param name="addOnBeanView" value="#{filialView}" />
+			<ui:param name="receiveBeanView" value="#{clienteView}" />
+		</ui:include>
+	</ui:define>
+</ui:composition>

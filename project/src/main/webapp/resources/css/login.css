@@ -1,0 +1,315 @@
+@charset "utf-8";
+
+body {
+	background:  url("#{resource['images:/login/background_1.jpg']}") no-repeat fixed center top / cover  rgba(0, 0, 0, 0);
+}
+
+*, html, body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, label, fieldset, input, p, blockquote, th, td {
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 15px;
+    margin: 0;
+    padding: 0;
+}
+
+.logo {
+   /*  
+   	background: url("#{resource['images:/login/logo.png']}") no-repeat scroll left center rgba(0, 0, 0, 0);
+    height: 100px;
+    */
+	font-size: 20px;
+    margin: 0 0 15px 90px;
+    width: 260px; 
+}
+
+.grid915 {
+	width: 915px;
+	margin: 0 auto;
+}
+
+.boxLeft {
+	width: 510px;
+	float: left;
+	position: relative;
+	top: 120px;
+}
+
+.boxLeft h1 {
+	font-size: 32px;
+	font-family: arial;
+	font-weight: bold;
+	color: #fff;
+	line-height: 70px;
+}
+
+.boxLeft .txt {
+	font-size: 18px;
+	font-family: arial;
+	color: #fff;
+	line-height: 18px;
+}
+
+.boxRight {
+	width: 310px;
+	float: right;
+	position: relative;
+	top: 100px;
+}
+
+.boxRight .container {
+	float: left;
+	width: 300px;
+	padding-top: 20px;
+	background: #fff;
+	-ms-border-radius: 6px;
+	border-radius: 6px;
+	-webkit-border-radius: 6px;
+	-moz-border-radius: 6px;
+	-o-border-radius: 6px;
+}
+
+.boxRight form {
+	position: relative;
+	background: #f3f5f5;
+	border-top: 1px solid #b9bbbb;
+	padding: 20px 0 20px 30px;
+	border-radius: 0 0 7px 7px;
+	-ms-border-radius: 0 0 5px 5px;
+	-moz-border-radius: 0 0 5px 5px;
+	-o-border-radius: 0 0 5px 5px;
+}
+
+.boxRight form .field {
+	width: 241px;
+}
+
+.boxRight form .field select {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	cursor: pointer;
+	border: none;
+	/* background: url("#{resource['images:/login/bg_select.png']}") left top no-repeat; */
+	width: 240px;
+	height: 30px;
+	padding: 5px 10px;
+	font-size: 12px;
+	font-family: arial;
+	color: #6f6f6f;
+}
+
+.boxRight form .field {
+	margin-bottom: 10px;
+}
+
+.boxRight form .bxUser input {
+	border: none;
+	background: url("#{resource['images:/login/bg_user.png']}") left top no-repeat;
+	border-radius: 5px 5px 0 0;
+	-ms-border-radius: 5px 5px 0 0;
+	-webkit-border-radius: 5px 5px 0 0;
+	-moz-border-radius: 5px 5px 0 0;
+	-o-border-radius: 5px 5px 0 0;
+	padding: 5px 10px 5px 45px;
+	width: 185px;
+	height: 30px;
+	font-size: 12px;
+	font-family: arial;
+	color: #6f6f6f;
+}
+
+.boxRight form .bxUser input.error {
+	background-position: left bottom;
+}
+
+.boxRight form .bxSenha input {
+	border: none;
+	background: url("#{resource['images:/login/bg_password.png']}") left top no-repeat;
+	padding: 5px 10px 5px 45px;
+	width: 185px;
+	height: 29px;
+	font-size: 12px;
+	font-family: arial;
+	color: #6f6f6f;
+}
+
+.boxRight form .bxSenha input.error {
+	background-position: left bottom;
+}
+
+.boxRight form .field .esqueceu {
+	float: right;
+	color: #0079b8;
+	font-size: 12px;
+	font-family: arial;
+	text-align: right;
+	margin: 10px 0 15px;
+	text-decoration: none;
+}
+
+.boxRight form .field .btnSubmit {
+	cursor: pointer;
+	background: url("#{resource['images:/login/bg_btn.png']}") left top repeat-x;
+	-ms-border-radius: 5px;
+	border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	-o-border-radius: 5px;
+	width: 240px;
+	height: 40px;
+	line-height: 40px;
+	text-align: center;
+	font-size: 14px;
+	font-family: arial;
+	font-weight: bold;
+	color: #fff;
+	text-shadow: 1px 1px 1px #00669b;
+	border: none;
+}
+
+.msgSuccess {
+	display: none;
+	top: 27px;
+	left: 287px;
+	color: #58753f;
+	font-size: 12px;
+	font-family: arial;
+	width: 186px;
+	position: absolute;
+	background: #a8df78;
+	padding: 10px;
+}
+
+.msgSuccess .set {
+	width: 13px;
+	height: 22px;
+	background: url("#{resource['images:/login/set-green.png']}") left top repeat-x;
+	position: absolute;
+	top: 50%;
+	margin-top: -11px;
+	left: -12px;
+}
+
+.msgError {
+	display: none;
+	top: -2px;
+	left: 287px;
+	color: #fff;
+	font-size: 12px;
+	font-family: arial;
+	width: 186px;
+	position: absolute;
+	background: #b63333;
+	padding: 10px;
+}
+
+.msgError .set {
+	width: 13px;
+	height: 22px;
+	background: url("#{resource['images:/login/bg_set.png']}") left top repeat-x;
+	position: absolute;
+	top: 50%;
+	margin-top: -11px;
+	left: -12px;
+}
+
+#formLogin {
+	display: block;
+}
+
+#formEsqueci .msgError {
+	top: 28px !important;
+}
+
+#formEsqueci input.error {
+	background: url("#{resource['images:/login/bg-input-error.png']}") !important;
+	color: #bb3838;
+}
+
+#formEsqueci {
+	display: none;
+}
+
+#formEsqueci input[type="email"] {
+	border: none;
+	background: url("#{resource['images:/login/bg-input.png']}") ;
+	border-radius: 5px 5px 0 0;
+	-ms-border-radius: 5px;
+	-webkit-border-radius: 5px 5px 0 0;
+	-moz-border-radius: 5px 5px 0 0;
+	-o-border-radius: 5px 5px 0 0;
+	padding: 5px 10px 5px 10px;
+	width: 220px;
+	height: 29px;
+	font-size: 12px;
+	font-family: arial;
+	color: #6f6f6f;
+}
+
+#formEsqueci .tit {
+	font-family: arial;
+	font-size: 16px;
+	color: #999999;
+	font-weight: bold;
+	margin-bottom: 10px;
+}
+
+#formEsqueci .voltarLogin {
+	background: url("#{resource['images:/login/icon-set.png']}") left center no-repeat;
+	font-size: 12px;
+	line-height: 12px;
+	padding-left: 15px;
+	color: #0079b8;
+	margin-top: 20px;
+	font-family: arial;
+	text-decoration: none;
+}
+
+.footer {
+	bottom: 0;
+	position: absolute;
+	left: 0;
+	/*padding: 20px 0;*/
+	border-top: 1px solid #131313;
+	background: #222222;
+	width: 100%;
+}
+
+.footer a {
+	font-size: 12px;
+	color: #fff;
+	font-family: arial;
+	margin-right: 10px;
+	display: inline-block;
+	text-decoration: none;
+}
+
+.footer a:hover {
+	text-decoration: underline;
+}
+
+.footer p {
+    color: #fff;
+    font-family: Verdana;
+    font-size: 12px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.errorEmail::-webkit-input-placeholder,.error::-webkit-input-placeholder
+	{ /* WebKit browsers */
+	color: #db2828 !important;
+}
+
+.errorEmail:-moz-placeholder,.error:-moz-placeholder {
+	/* Mozilla Firefox 4 to 18 */
+	color: #db2828 !important;
+}
+
+.errorEmail::-moz-placeholder,.error::-moz-placeholder {
+	/* Mozilla Firefox 19+ */
+	color: #db2828 !important;
+}
+
+.errorEmail:-ms-input-placeholder,.error:-ms-input-placeholder {
+	/* Internet Explorer 10+ */
+	color: #db2828 !important;
+}

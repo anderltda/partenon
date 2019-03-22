@@ -1,0 +1,48 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:composite="http://java.sun.com/jsf/composite">
+
+	<composite:interface>
+		<composite:attribute name="view" required="true" />
+		<composite:attribute name="ajax" default="false" type="java.lang.Boolean" />
+		<composite:attribute name="salvar" default="true" type="java.lang.Boolean" />
+		<composite:attribute name="novo" default="true" type="java.lang.Boolean" />
+		<composite:attribute name="editar" default="true" type="java.lang.Boolean" />
+		<composite:attribute name="deletar" default="true" type="java.lang.Boolean" />
+		<composite:attribute name="voltar" default="true" type="java.lang.Boolean" />
+	</composite:interface>
+	
+	<composite:implementation>
+			<div class="row">
+				<div class="col-md-8">
+					<div class="box-body">
+						<div class="form-group">
+							<p:commandButton value="#{msgs.btn_salvar}" styleClass="btn btn-primary pull-left fa fa-save" action="#{cc.attrs.view.save}" ajax="#{cc.attrs.ajax}" disabled="#{cc.attrs.view.disabled}" immediate="false" validateClient="true" rendered="#{cc.attrs.salvar}"/>
+							<p:commandButton value="#{msgs.btn_novo}" styleClass="btn btn-primary pull-left fa fa-plus" action="#{cc.attrs.view.create}" immediate="true" ajax="false" rendered="#{cc.attrs.novo}"/>
+							<p:commandButton value="#{msgs.btn_editar}" styleClass="btn btn-primary pull-left fa fa-edit" action="#{cc.attrs.view.edit}" ajax="true" disabled="#{!cc.attrs.view.disabled}" immediate="true" rendered="#{cc.attrs.editar}"/>
+							<p:commandButton value="#{msgs.btn_deletar}" styleClass="btn btn-primary pull-left fa fa-trash" action="#{cc.attrs.view.delete}" immediate="true" disabled="#{!cc.attrs.view.disabled}" rendered="#{cc.attrs.deletar}">
+								<p:confirm header="#{msgs.tit_confirmacao}" message="#{msgs.message_confirmacao_deletar}" icon="ui-icon-alert" />
+							</p:commandButton>					
+							<p:commandButton value="#{msgs.btn_voltar}" styleClass="btn btn-primary pull-left fa fa-arrow-left" action="#{cc.attrs.view.getSearchPage()}" immediate="true" rendered="#{cc.attrs.voltar}"/>
+						</div>
+					</div>
+				</div>							
+				<div class="col-md-4">
+					<div class="box-body">
+						<div class="form-group">
+							<p:outputPanel rendered="#{cc.attrs.view.usuarioCriacao != null}">            
+								<div class="col-md-12"> 
+							    	<b>#{msgs.lbl_usuario_criacao}:</b> #{cc.attrs.view.usuarioCriacao}
+							    	<br/>
+							    	<b>#{msgs.lbl_usuario_alteracao}:</b> #{cc.attrs.view.usuarioAlteracao} 
+					            </div>
+							</p:outputPanel>									
+						</div>
+					</div>
+				</div>
+			</div>
+	</composite:implementation>
+	
+</html>

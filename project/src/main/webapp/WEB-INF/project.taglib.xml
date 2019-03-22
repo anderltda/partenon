@@ -1,0 +1,47 @@
+<facelet-taglib xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facelettaglibrary_2_0.xsd"
+	version="2.0">
+	<namespace>http://project.com.br/tags</namespace>
+	
+	<tag>
+		<tag-name>form</tag-name>
+		<component>
+			<component-type>br.com.project.foundation.components.Form</component-type>
+			<renderer-type>br.com.project.foundation.components.FormRenderer</renderer-type>
+		</component>
+	</tag>
+
+	<tag>
+		<tag-name>tab</tag-name>
+		<component>
+			<component-type>br.com.project.foundation.components.Tab</component-type>
+			<renderer-type>br.com.project.foundation.components.TabRenderer</renderer-type>
+		</component>
+	</tag>	
+	
+	<tag>
+		<tag-name>breadcrumb</tag-name>
+		<component>
+			<component-type>br.com.project.foundation.components.BreadCrumb</component-type>
+			<renderer-type>br.com.project.foundation.components.BreadCrumbRenderer</renderer-type>
+		</component>
+	</tag>	
+	
+	<tag>
+		<tag-name>table</tag-name>
+		<component>
+			<component-type>br.com.project.foundation.components.Table</component-type>
+			<renderer-type>br.com.project.foundation.components.TableRenderer</renderer-type>
+		</component>
+	</tag>
+		
+	<tag>
+		<tag-name>maps</tag-name>
+		<component>
+			<component-type>br.com.project.foundation.components.Map</component-type>
+			<renderer-type>br.com.project.foundation.components.MapRenderer</renderer-type>
+		</component>
+	</tag>	
+	
+</facelet-taglib>

@@ -1,0 +1,52 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:util="http://java.sun.com/jsf/composite/util"
+	xmlns:p="http://primefaces.org/ui">
+
+	<util:selectSingleDialog nameDialog="#{nameDialog}" title="#{title}" update="#{update}" receiveBeanView="#{receiveBeanView}" addOnBeanView="#{addOnBeanView}">
+
+		<p:column headerText="#{msgs.lbl_placa}">
+			<h:outputText value="#{bean.placa}" />
+		</p:column>
+
+		<p:column headerText="#{msgs.lbl_frota}">
+			<h:outputText value="#{bean.frota}" />
+		</p:column>
+		
+		<p:column headerText="#{msgs.lbl_filial}">
+			<h:outputText value="#{bean.filial.sigla}" />
+		</p:column>							
+		
+		<p:column headerText="#{msgs.lbl_proprietario}">
+			<h:outputText value="#{bean.proprietario.nome}" />
+		</p:column>
+		
+		<p:column headerText="#{msgs.lbl_motorista}">
+			<h:outputText value="#{bean.motorista.nome}" />
+		</p:column>							
+
+		<p:column headerText="#{msgs.lbl_modelo}">
+			<h:outputText value="#{bean.modelo}" />
+		</p:column>
+		
+	</util:selectSingleDialog>	
+	
+	<ui:include src="/cadastro/dialog/motoristaDialog.xhtml">
+		<ui:param name="title" value="#{msgs.tit_motorista}" />
+		<ui:param name="nameDialog" value="singleDialogMotorista" />
+		<ui:param name="update" value=":form" />				
+		<ui:param name="addOnBeanView" value="#{motoristaView}" />
+		<ui:param name="receiveBeanView" value="#{veiculoView}" />							
+	</ui:include>
+	<ui:include src="/cadastro/dialog/filialDialog.xhtml">
+		<ui:param name="title" value="#{msgs.tit_filial}" />
+		<ui:param name="nameDialog" value="singleDialogFilial" />
+		<ui:param name="update" value=":form" />				
+		<ui:param name="addOnBeanView" value="#{filialView}" />
+		<ui:param name="receiveBeanView" value="#{veiculoView}" />						
+	</ui:include>	
+	
+</html>
+	

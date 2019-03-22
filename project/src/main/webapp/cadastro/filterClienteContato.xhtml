@@ -1,0 +1,83 @@
+<p:outputPanel xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:util="http://java.sun.com/jsf/composite/util"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:project="http://project.com.br/tags">
+
+	<h:form id="formClienteContatoViewFilter">
+	
+		<section class="content">
+
+			<!-- Filter -->
+			<div class="box">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="box-header with-border">
+							<h3 class="box-title">
+								<i class="fa fa-search"></i> #{msgs.tit_filtro}
+							</h3>
+						</div>
+						<div class="box-body">
+							<project:form id="clienteContatoViewFilter" view="#{clienteContatoView}"/>	
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Filter -->
+
+
+			<!-- List -->
+			<div class="box">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="box-header with-border">
+							<h4 class="box-title">
+								<i class="fa fa-bars"></i> #{msgs.tit_listagem}
+							</h4>
+						</div>
+						<p:dataTable id="table" var="contato" widgetVar="list" 
+							paginator="true"
+							lazy="true" 
+							paginatorPosition="bottom" 
+							value="#{clienteContatoView.list}"
+							selectionMode="single"
+							selection="#{clienteContatoView.bean}" 
+							rowKey="#{contato.id}"
+							rows="#{clienteContatoView.rows}"
+							paginatorTemplate="#{clienteContatoView.getPaginationTemplate()}"
+							rowsPerPageTemplate="#{clienteContatoView.rowsPerPage}"
+							emptyMessage="#{clienteContatoView.getEmptyListMessage()}">
+				
+							<p:ajax event="rowSelect" listener="#{clienteContatoView.onRowSelect}" update=":formClienteContatoViewFilter:table" />
+				
+							<p:column headerText="#{msgs.lbl_nome}">
+								#{contato.nome}
+							</p:column>
+							
+							<p:column headerText="#{msgs.lbl_cargo}">
+								#{contato.cargo}
+							</p:column>
+							
+							<p:column headerText="#{msgs.lbl_email}">
+								#{contato.email}
+							</p:column>														
+														
+				
+						</p:dataTable>
+					</div>
+				</div>
+			</div>
+			<!-- List -->
+			
+			
+			<!-- Button -->
+			<util:filterButtons form="formClienteContatoViewFilter" view="#{clienteContatoView}" />
+			<!-- Button -->			
+
+		</section>
+	</h:form>
+
+</p:outputPanel>

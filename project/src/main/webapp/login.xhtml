@@ -1,0 +1,116 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:util="http://java.sun.com/jsf/composite/util"
+	xmlns:applets="http://java.sun.com/jsf/composite/applets"
+	xmlns:project="http://project.com.br/tags"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>project - Login</title>
+	<h:outputStylesheet library="css" name="login.css" />	
+	<f:facet name="last">
+		<h:outputScript library="js/login" name="jqueryForm.js" />		
+	</f:facet>
+
+	<script type="text/javascript">
+	
+	    $(document).ready(function(){
+	        
+			$('.esqueceu').click(function(e){
+	            e.preventDefault();
+	            $('#formLogin').hide();
+	            $('#formLogin').find('.msgError').hide();
+	            $('#formLogin').find('input').removeClass('error');
+	            $('#formEsqueci').show();
+	        });
+			
+			$('#formEsqueci').hide();
+	       
+	     	$('.voltarLogin').click(function(e){
+	            e.preventDefault();
+	            $('#formEsqueci').hide();
+	            $('#formEsqueci').find('.msgError').hide();
+	            $('#formEsqueci').find('input').removeClass('error errorEmail');
+	            $('#formEsqueci').find('input').attr('placeholder', '*informe seu e-mail:');
+	            $('#formLogin').show();
+	        });
+			
+	        $('#formEsqueci').find('input').focusout(function(){
+	            $(this).attr('placeholder', '*informe seu e-mail:');
+	        });
+	    });
+	 
+	</script>	
+</h:head>
+
+<h:body class="login">
+
+	<div class="grid915">
+        
+        <div class="boxLeft">
+            <h1>Versão 1.0.0 - Desenvolvimento</h1>
+            <div class="txt">
+	            Lorem ipsum dolor sit amet, lorem ipsum dolor sit amet. Sed consectetur eros, vehicula id convallis non.Lorem ipsum dolor sit amet, 
+	            lorem ipsum dolor sit amet. Sed consectetur eros, vehicula id convallis non. Lorem ipsum dolor sit amet, lorem ipsum dolor sit amet. 
+	            Sed consectetur eros, vehicula id convallis non.
+            </div>
+        </div>
+        
+		<div class="boxRight">
+            <div class="container">
+                
+                <div class="logo">PARTHENON</div>
+				                
+                <h:form id="formLogin">
+                    
+                    <div class="bxUser">
+						<p:inputText id="login" label="#{msgs.lbl_login}" value="#{loginView.login}" placeholder="#{msgs.lbl_login}" styleClass="required" tabindex="2"/>
+                    </div>
+                    <div class="bxSenha">
+						<p:password id="password" label="#{msgs.lbl_password}" value="#{loginView.password}" placeholder="#{msgs.lbl_password}" styleClass="required" tabindex="3"/>
+                    </div>         
+                    
+                    <div class="field">
+                        <a class="esqueceu" href="#">Esqueceu a sua senha?</a>
+                    </div>
+                    <div class="field">
+						<p:commandButton value="#{msgs.btn_login}" styleClass="btnSubmit" actionListener="#{loginView.login}" 
+						oncomplete="login.validate(xhr, status, args);" tabindex="4" />
+                    </div>
+                    <div class="msgError"></div>
+              	</h:form>
+              	
+              	<h:form id="formEsqueci">
+			        <div class="field">
+                       <p:inputText id="email" type="email" name="email" value="#{loginView.email}" placeholder="#{msgs.message_informe_email}" />
+                    </div>
+                    <div class="field">
+                        <p:commandButton type="submit" name="entrar" value="#{msgs.buttom_solictar_nova_senha}" actionListener="#{loginView.forgot}" oncomplete="login.forgot(xhr, status, args);" styleClass="btnSubmit" />
+                    </div>
+                    <div class="field">
+                        <a class="voltarLogin" href="#">#{msgs.lbl_volta}</a>
+                    </div>
+                    <div class="msgSuccess">
+                        Sua senha for resetada. Enviamos uma nova senha para você por e-mail.
+                    </div>
+                    <div class="msgError">
+                        Não foi possivel solicitar uma nova senha para o sistema, possivelmente seu e-mail está incorreto.
+                    </div>
+                </h:form>
+ 		    </div>
+        </div>
+    </div>
+    <div class="footer">
+        <div class="grid915">
+           <p>2015. Todos os direitos reservados.</p>
+        </div>
+    </div>
+    
+	<p:dialog header="Modal Dialog" widgetVar="dlg2" modal="true" height="100">
+	    <h:outputText value="This is a Modal Dialog." />
+	</p:dialog>     
+
+</h:body>
+</html>

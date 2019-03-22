@@ -1,0 +1,44 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:project="http://project.com.br/tags"
+	xmlns:util="http://java.sun.com/jsf/composite/util"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:form>
+		<h:panelGrid columns="2" columnClasses="form-label,form-field,form-message" styleClass="center-footer-button">
+			
+			<h:outputLabel value="#{msgs.lbl_codigo}:" for="codigo"/>
+			<h:panelGroup>
+				<p:inputText id="codigo" label="#{msgs.lbl_codigo}" value="#{cfgInicialController.bean.id}" size="20" maxlength="20" required="true" styleClass="textMask" disabled="true"/>
+				<p:message for="codigo" />
+			</h:panelGroup>
+
+			<h:outputLabel value="#{msgs.lbl_chave}:" for="chave"/>
+			<h:panelGroup>
+				<p:inputText id="chave" label="#{msgs.lbl_chave}" value="#{cfgInicialController.bean.chave}" size="50" maxlength="50" required="true" styleClass="textMask" disabled="true"/>
+				<p:message for="chave" />
+			</h:panelGroup>
+
+			<h:outputLabel value="#{msgs.lbl_valor}:" for="valor"/>
+			<h:panelGroup>
+				<p:inputText id="valor" label="#{msgs.lbl_valor}" value="#{cfgInicialController.bean.valor}" size="50" maxlength="50" required="false" styleClass="textMask" disabled="#{cfgInicialController.disabled}"/>
+				<p:message for="valor" />
+			</h:panelGroup>
+
+			<h:outputLabel value="#{msgs.lbl_descricao}:" for="descricao"/>
+			<h:panelGroup>
+				<p:inputText id="descricao" label="#{msgs.lbl_descricao}" value="#{cfgInicialController.bean.descricao}" size="100" maxlength="100" required="true" styleClass="textMask" disabled="#{cfgInicialController.disabled}"/>
+				<p:message for="descricao" />
+			</h:panelGroup>
+
+			<f:facet name="footer">
+				<p:commandButton value="#{msgs.btn_edit}" action="#{cfgInicialController.edit()}" ajax="false" rendered="#{cfgInicialController.disabled}"/>
+				<p:commandButton value="#{msgs.btn_back}" action="#{cfgInicialController.list()}" ajax="false" immediate="true" rendered="#{cfgInicialController.disabled}"/>
+				<p:commandButton value="#{msgs.btn_save}" action="#{cfgInicialController.save()}" ajax="false" rendered="#{!cfgInicialController.disabled}"/>
+				<p:commandButton value="#{msgs.btn_cancel}" action="#{cfgInicialController.list()}" ajax="false" immediate="true" rendered="#{!cfgInicialController.disabled}"/>
+			</f:facet>
+		</h:panelGrid>
+	</h:form>
+</html>

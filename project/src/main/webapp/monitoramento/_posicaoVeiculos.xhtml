@@ -1,0 +1,222 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:util="http://java.sun.com/jsf/composite/util"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:project="http://project.com.br/tags"
+	template="/WEB-INF/cadastro/template.xhtml">
+
+	<ui:define name="title">
+		#{msgs.tit_usuarios}
+	</ui:define>
+
+	<ui:define name="content">
+
+		<style type="text/css">
+		  .map_canvas { height: 100%; position: relative; position: unset; }
+		</style>
+
+		<script type="text/javascript">
+			// This example displays a marker at the center of Australia.
+			// When the user clicks the marker, an info window opens.
+
+			function initialize() {
+				
+				var myLatlng = new google.maps.LatLng(-25.363882, 131.044922);
+				
+				var mapOptions = {
+					zoom : 4,
+					center : myLatlng
+				};
+
+				var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+
+				var contentString = "Teste";
+
+				var infowindow = new google.maps.InfoWindow({
+					content : contentString
+				});
+
+				var marker = new google.maps.Marker({
+					position : myLatlng,
+					map : map,
+					title : "Uluru (Ayers Rock)"
+				});
+
+				infowindow.open(map, marker);
+			}
+
+			google.maps.event.addDomListener(window, 'load', initialize);
+		</script>
+
+
+
+		<h:form id="form">
+			<div class="page-full-width cf">
+				<!-- side-content fr -->
+				<!-- page-full-width cf -->
+				<div class="content-module">
+
+					<div class="content-module-heading cf">
+						<h3 class="fl"><h:outputText value="#{msgs.tit_pesquisa}" /></h3>
+						<span class="fr expand-collapse-text"><h:outputText value="#{msgs.aba_expand_collapse_open}" /></span> 
+						<span class="fr expand-collapse-text initial-expand"><h:outputText value="#{msgs.aba_expand_collapse_close}" /></span>
+					</div>
+					<!-- end content-module-heading -->
+
+					<h:inputHidden id="posicao" value="#{posicaoVeiculoView.latlongMap}" />
+
+					<div class="content-module-main cf">
+
+						<p:panel id="panel">
+						
+							<h:panelGrid columns="7">
+								<h:panelGrid columns="1">
+								
+									<h:outputLabel value="#{msgs.lbl_placa}" for="lbl_placa" />
+									<h:panelGroup>
+										<p:inputText id="lbl_placa" style="width:90px;" value="#{posicaoVeiculoView.idVeiculo}" required="true" label="#{msgs.lbl_placa}" />
+										<p:commandButton icon="ui-icon-search" immediate="true" onclick="PF('singleDialogVeiculo').show();" />
+									</h:panelGroup>
+								</h:panelGrid>
+
+								<h:panelGrid columns="1">
+									<h:outputLabel value="#{msgs.lbl_periodo}" for="datetimeini" />
+									<h:panelGroup>
+										<p:calendar id="datetimeini" value="#{posicaoVeiculoView.beanFilter.dataInicio}" pattern="dd/MM/yyyy HH:mm" label="datetimeini" />
+									</h:panelGroup>
+								</h:panelGrid>
+
+								<h:panelGrid columns="1">
+									<p:spacer height="12" />
+									<h:panelGroup>
+										<p:calendar id="datetimefim" value="#{posicaoVeiculoView.beanFilter.dataFim}" pattern="dd/MM/yyyy HH:mm" label="datetimefim" />
+									</h:panelGroup>
+								</h:panelGrid>
+
+								<h:panelGrid columns="1">
+									<p:spacer height="12" />
+									<h:panelGroup>
+										<p:selectBooleanCheckbox id="ckecked" value="#{posicaoVeiculoView.ultimaLocalizacao}" />
+									</h:panelGroup>
+								</h:panelGrid>
+
+								<h:panelGrid columns="1">
+									<p:spacer height="12" />
+									<h:panelGroup>
+										<h:outputLabel value="#{msgs.lbl_ultima_localizacao}" for="ckecked" />
+									</h:panelGroup>
+								</h:panelGrid>
+								
+								<h:panelGrid columns="1">
+									<p:spacer height="12" />
+									<h:panelGroup>
+										<p:selectBooleanCheckbox value="#{posicaoVeiculoView.ativaTimeout}">
+											<p:ajax update=":form:panel" listener="#{posicaoVeiculoView.ativarTime}" />
+										</p:selectBooleanCheckbox>
+									</h:panelGroup>
+								</h:panelGrid>
+
+								<h:panelGrid columns="1">
+									<p:spacer height="12" />
+									<h:panelGroup>
+										<h:outputLabel value="#{msgs.lbl_ativa_timeout}" />
+									</h:panelGroup>
+								</h:panelGrid>								
+
+							</h:panelGrid>
+
+							<br />
+
+							<p:commandLink update=":form" actionListener="#{posicaoVeiculoView.search}" immediate="false">
+								<h:outputText value="#{msgs.btn_pesquisa}" styleClass="button round blue image-right ic-search text-upper" />
+							</p:commandLink>
+
+							<p:spacer width="10" />
+							<p:commandLink update=":form:panel" immediate="true" actionListener="#{posicaoVeiculoView.clearBeanFilter}">
+								<h:outputText value="#{msgs.btn_limpa}" styleClass="button round blue image-right ic-refresh text-upper" />
+							</p:commandLink>
+
+							<p:spacer width="10" />
+							<pe:timer id="time" timeout="#{posicaoVeiculoView.timeout}"
+								singleRun="false" format="HH:mm:ss" update=":form"
+								listener="#{posicaoVeiculoView.search}"
+								rendered="#{posicaoVeiculoView.ativaTimeout}" />
+						</p:panel>
+
+						<p:panel header="#{msgs.tit_configure_timeout}" collapsed="true" toggleable="true" toggleOrientation="vertical">							
+							<h:panelGrid columns="3">
+								<h:panelGrid columns="1">
+									<h:outputLabel value="#{msgs.lbl_timeout}" />
+									<pe:timePicker value="#{posicaoVeiculoView.time}" mode="popup" widgetVar="popupBtnTimeWidget" showOn="button"
+										label="#{msgs.lbl_configure_timeout}" minMinute="2">
+										<p:ajax event="close" listener="#{posicaoVeiculoView.closeListener}" />
+									</pe:timePicker>
+								</h:panelGrid>
+								
+								<p:spacer width="30" />
+								
+								<h:panelGrid columns="1">
+									<h:outputLabel value="#{msgs.lbl_zoom_map}" />
+									<p:inputText id="zoom" value="#{posicaoVeiculoView.zoom}" maxlength="2">
+										<pe:keyFilter regEx="/[0-9_]/i" />
+									</p:inputText>
+									<p:slider for="zoom">
+										<p:ajax event="slideEnd" listener="#{posicaoVeiculoView.onSlideEnd}" />
+									</p:slider>
+								</h:panelGrid>									
+							</h:panelGrid>
+						</p:panel>
+
+					</div>
+					<!-- end content-module-main -->
+
+				</div>
+				<!-- end content-module -->
+
+				<div class="content-module">
+
+					<div class="content-module-heading cf">
+						<h3 class="fl"><h:outputText value="#{msgs.tit_maps}" /></h3>
+						<span class="fr expand-collapse-text"><h:outputText value="#{msgs.aba_expand_collapse_open}" /></span> 
+						<span class="fr expand-collapse-text initial-expand"><h:outputText value="#{msgs.aba_expand_collapse_close}" /></span>
+					</div>
+
+					<div class="content-module-main">
+					
+					 	<div id="map-canvas" class="map_canvas"></div>
+					 	
+<!-- 
+						<p:gmap id="maps" widgetVar="wgmap" center="#{posicaoVeiculoView.latlongMap != null ? posicaoVeiculoView.latlongMap : '-23.4783775,-46.6577631'}"
+							zoom="#{posicaoVeiculoView.zoom}" type="ROADMAP" style="width:auto; height:840px"
+							model="#{posicaoVeiculoView.model}" streetView="true" mapTypeControl="true" navigationControl="true">
+							<p:ajax event="overlaySelect" listener="#{posicaoVeiculoView.onMarkerSelect}" />
+							
+							<p:gmapInfoWindow id="infoWindow">
+								<p:outputPanel style="text-align: center; display: block; margin: auto; height:30px">
+									<h:outputText value="#{posicaoVeiculoView.marker.title}" />
+								</p:outputPanel>
+							</p:gmapInfoWindow>
+							
+						</p:gmap> 
+-->
+					</div>
+				</div>
+
+			</div>
+		</h:form>
+
+	</ui:define>
+	<ui:define name="dialogs">
+		<ui:include src="/cadastro/dialog/veiculoDialog.xhtml">
+			<ui:param name="title" value="#{msgs.tit_veiculo}" />
+			<ui:param name="nameDialog" value="singleDialogVeiculo" />
+			<ui:param name="update" value=":form:panel" />
+			<ui:param name="addOnBeanView" value="#{veiculoView}" />
+			<ui:param name="receiveBeanView" value="#{posicaoVeiculoView}" />
+		</ui:include>
+	</ui:define>
+
+</ui:composition>

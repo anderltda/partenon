@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:util="http://java.sun.com/jsf/composite/util"
+      xmlns:project="http://project.com.br/tags"
+      xmlns:pe="http://primefaces.org/ui/extensions">	
+		
+	<f:view locale="#{localeView.locale}" contentType="text/html">
+	
+		<h:head>
+			<meta charset="utf-8" />			
+			<meta name="description" content="description" />
+			<meta name="viewport" content="width=device-width, initial-scale=1" />
+			<meta name="author" content="Anderson Nascimento" />
+			<title> #{msgs.tit_application} - <ui:insert name="title"/></title>			
+		</h:head>
+
+		<h:body styleClass="skin-blue">
+									
+			<!-- Css -->
+		    <h:outputStylesheet library="css" name="bootstrap.min.css" />
+	        <h:outputStylesheet library="css" name="ionicons.min.css" />
+			<h:outputStylesheet library="css" name="font-awesome.min.css" />
+		    <h:outputStylesheet library="css" name="master.css" />
+		    <h:outputStylesheet library="css/skins" name="_all-skins.min.css" />			
+			<h:outputStylesheet library="css/datatables" name="dataTables.bootstrap.css" />
+			<h:outputStylesheet library="css/bootstrap-wysihtml5" name="bootstrap3-wysihtml5.min.css" />
+			<h:outputStylesheet library="css/colorpicker" name="bootstrap-colorpicker.min.css" />
+			<!-- Css -->
+			
+			<!-- Js -->		
+			<h:outputScript library="js" name="bootstrap.min.js" />
+			<h:outputScript library="js" name="configuracao.js" /> 
+		    <h:outputScript library="js/datatables" name="jquery.dataTables.js" />   
+		    <h:outputScript library="js/datatables" name="dataTables.bootstrap.js" />
+		    <h:outputScript library="js/colorpicker" name="bootstrap-colorpicker.min.js" />
+		    <h:outputScript library="js/bootstrap-wysihtml5" name="bootstrap3-wysihtml5.all.min.js" />
+		    <h:outputScript library="js" name="app.js" />
+		    <h:outputScript library="js" name="demo.js" />
+		    <!-- Js -->
+
+		    <ui:insert name="scripts"/>	
+		    
+        	<!-- header -->
+         	<ui:include src="header.xhtml" />
+         	
+		    <script type="text/javascript"></script>         		
+         
+        	<div class="wrapper">	            
+	           
+	            <!-- Menu -->
+	            <ui:include src="menu.xhtml" />
+	            	            
+	            <div class="content-wrapper">	            
+		            
+		            <!-- BreadCrumb -->
+		            <ui:include src="breadcrumb.xhtml" />		            
+		            
+		            <!-- Messagem -->
+		       		<ui:include src="/util/message.xhtml"/>
+		       		
+		       		 <!-- E-mail and Help -->
+		       		<ui:include src="options.xhtml" />
+		       		
+					<!-- Conteudo -->
+					<ui:insert name="content"/>					
+													
+				</div>
+				
+	            <!-- Footer -->
+	            <ui:include src="footer.xhtml" />			
+	            
+        	</div>		
+		
+			<p:outputPanel id="dialogsGrid">							
+				<ui:insert id="dialogs" name="dialogs"/>				
+				<p:confirmDialog global="true" showEffect="fade">
+			        <p:commandButton value="" type="button" styleClass="btn bg-blue btn-flat glyphicon glyphicon-ok ui-confirmdialog-yes" />
+			        <p:commandButton value="" type="button" styleClass="btn bg-blue btn-flat glyphicon glyphicon-ban-circle ui-confirmdialog-no" />
+			    </p:confirmDialog>								
+			</p:outputPanel>
+
+
+			<!-- css="{left: 50%, margin-left: -100px, margin-top: -50px, position: fixed, top: 50%, width: auto,z-index: 1011}" -->			
+			<!--  -->
+			<p:ajaxStatus update="@none" onstart="PF('blockUIWidget').block()" oncomplete="PF('blockUIWidget').unblock()"/>
+
+			<pe:blockUI widgetVar="blockUIWidget" css="{top: '40%', left: '50%', position: 'fixed', width: 'auto', right: '10px', cursor: 'wait'}">
+				<h:graphicImage library="images" name="ajax-loader.gif" styleClass="img-responsive img-center" />								
+			</pe:blockUI> 
+
+		</h:body>
+	</f:view>
+</html>

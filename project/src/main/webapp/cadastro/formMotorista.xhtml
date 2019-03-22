@@ -1,0 +1,469 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:util="http://java.sun.com/jsf/composite/util"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:project="http://project.com.br/tags"
+	template="/WEB-INF/cadastro/template.xhtml">
+
+	<ui:define name="title"><i class="fa fa-car"></i> #{msgs.tit_motorista}</ui:define>
+
+	<ui:define name="content">
+
+		<h:form id="form" enctype="multipart/form-data">
+
+			<script type="text/javascript">
+				$(document).ready(function() {			
+					$("#form\\:lbl_cpf_cnpj").focus();
+				});
+			</script>
+
+			<section class="content">
+
+				<div class="box">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="box-body">
+								<div class="form-group">
+									<div class="col-md-2">
+										<h:outputLabel value="#{msgs.lbl_imagem_foto}" />
+										<div class="input-group">
+											<p:graphicImage value="/resources/images/user.gif" width="120" height="120" cache="true" rendered="#{motoristaView.bean.imagem == null}" />
+											<p:graphicImage value="/resources/images/foto.jpg" cache="false" rendered="#{motoristaView.bean.imagem != null}" />
+										</div>
+									</div>									
+									<div class="col-md-4">
+										<h:outputLabel value="#{msgs.lbl_cpf_cnpj}" for="lbl_cpf_cnpj" />
+										<div class="input-group">
+											<div class="input-group-addon">
+												<i class="fa fa-building-o"></i>
+											</div>
+											<p:inputText id="lbl_cpf_cnpj" maxlength="18" style="font-weight:bolder;" value="#{motoristaView.bean.cpf}" disabled="#{motoristaView.disabled}" required="true" label="#{msgs.lbl_cpf_cnpj}" onkeyup="util.formatCnpjCpf(this);">
+												<pe:keyFilter regEx="/[0-9_]/i" />
+											</p:inputText>
+										</div>
+									</div>
+									<div class="col-md-4">
+										<h:outputLabel value="#{msgs.lbl_categoria}" for="lbl_categoria" />
+										<div class="input-group">
+											<p:selectOneMenu id="lbl_categoria" value="#{motoristaView.bean.categoria}" disabled="#{motoristaView.disabled}" required="true" label="#{msgs.lbl_categoria}">
+												<f:selectItem itemLabel="" itemValue="" />
+												<f:selectItem itemValue="P" itemLabel="PROPRIETÁRIO" />
+												<f:selectItem itemValue="M" itemLabel="MOTORISTA" />
+												<f:selectItem itemValue="A" itemLabel="AJUDANTE" />
+												<f:selectItem itemValue="P,M" itemLabel="PROPRIETÁRIO/MOTORISTA" />
+												<f:selectItem itemValue="P,A" itemLabel="PROPRIETÁRIO/AJUDANTE" />
+												<f:selectItem itemValue="P,M,A" itemLabel="PROPRIETÁRIO/MOTORISTA/AJUDANTE" />
+												<f:selectItem itemValue="M,A" itemLabel="MOTORISTA/AJUDANTE" />
+											</p:selectOneMenu>
+										</div>
+									</div>
+									<div class="col-md-9">
+										<h:outputLabel value="#{msgs.lbl_nome}" for="lbl_nome" />
+										<div class="input-group">
+											<div class="input-group-addon">
+												<i class="fa fa-bars"></i>
+											</div>
+											<p:inputText id="lbl_nome" maxlength="100" value="#{motoristaView.bean.nome}" disabled="#{motoristaView.disabled}" required="true" label="#{msgs.lbl_nome}" />
+										</div>
+									</div>
+									<div class="col-md-3">
+										<h:outputLabel value="#{msgs.lbl_telefone}" for="lbl_telefone" />
+										<div class="input-group">
+											<div class="input-group-addon">
+												<i class="fa fa-phone"></i>
+											</div>
+											<p:inputMask mask="(99) 9999-9999" id="lbl_telefone" value="#{motoristaView.bean.telefone}" disabled="#{motoristaView.disabled}" required="true" label="#{msgs.lbl_telefone}" />
+										</div>
+									</div>
+									<div class="col-md-3">
+										<h:outputLabel value="#{msgs.lbl_celular}" for="lbl_celular" />
+										<div class="input-group">
+											<div class="input-group-addon">
+												<i class="fa fa-mobile"></i>
+											</div>
+											<p:inputMask mask="(99) 9999-9999" id="lbl_celular" value="#{motoristaView.bean.celular}" disabled="#{motoristaView.disabled}" required="true" label="#{msgs.lbl_celular}" />
+										</div>
+									</div>
+									<div class="col-md-3">
+										<h:outputLabel value="#{msgs.lbl_nextel}" for="lbl_nextel" />
+										<div class="input-group">
+											<div class="input-group-addon">
+												<i class="fa fa-mobile"></i>
+											</div>
+											<p:inputText id="lbl_nextel" value="#{motoristaView.bean.idNextel}" disabled="#{motoristaView.disabled}" required="false" label="#{msgs.lbl_nextel}" />
+										</div>
+									</div>
+									<div class="col-md-5">
+										<h:outputLabel value="#{msgs.lbl_rg}" for="lbl_rg" />
+										<div class="input-group">
+											<div class="input-group-addon">
+												<i class="fa fa-bars"></i>
+											</div>
+											<p:inputMask mask="99.999.999-9" id="lbl_rg" maxlength="15" value="#{motoristaView.bean.rg}" disabled="#{motoristaView.disabled}" required="false" label="#{msgs.lbl_rg}" />
+										</div>
+									</div>
+									<div class="col-md-3">
+										<h:outputLabel value="#{msgs.lbl_data_emissao}" for="lbl_data_emissao" />
+										<div class="input-group">
+											<div class="input-group-addon">
+												<i class="fa fa-calendar"></i>
+											</div>
+											<p:calendar id="lbl_data_emissao" value="#{motoristaView.bean.dataRgEmissao}" disabled="#{motoristaView.disabled}" required="false" label="#{msgs.lbl_data_emissao}" pattern="dd/MM/yyyy" mask="true" />
+										</div>
+									</div>
+									<div class="col-md-2">
+										<h:outputLabel value="#{msgs.lbl_orgao_emissor}" for="lbl_orgao_emissor" />
+										<div class="input-group">
+											<p:inputText id="lbl_orgao_emissor" maxlength="10" value="#{motoristaView.bean.rgEmissor}" disabled="#{motoristaView.disabled}" required="false" label="#{msgs.lbl_orgao_emissor}" />
+										</div>
+									</div>	
+									<div class="col-md-3">
+										<h:outputLabel value="#{msgs.lbl_data_nascimento}" for="lbl_data_nascimento" />
+										<div class="input-group">
+											<div class="input-group-addon">
+												<i class="fa fa-calendar"></i>
+											</div>
+											<p:calendar id="lbl_data_nascimento" value="#{motoristaView.bean.dataNascimento}" disabled="#{motoristaView.disabled}" required="false" label="#{msgs.lbl_data_nascimento}" pattern="dd/MM/yyyy" mask="true" />
+										</div>
+									</div>
+									<div class="col-md-4">
+										<h:outputLabel value="#{msgs.lbl_cidade}" for="lbl_cidade_" />
+										<div class="input-group">
+											<div class="input-group-addon">
+												<i class="fa fa-bars"></i>
+											</div>
+											<p:inputText id="lbl_cidade_" maxlength="50" value="#{motoristaView.bean.cidadeNascimento}" disabled="#{motoristaView.disabled}" required="false" label="#{msgs.lbl_cidade_}" />
+										</div>
+									</div>
+									<div class="col-md-3">
+										<h:outputLabel value="#{msgs.lbl_estado}" for="lbl_estado_" />
+										<div class="input-group">
+											<p:selectOneMenu id="lbl_estado_" value="#{motoristaView.bean.ufNascimento}" disabled="#{motoristaView.disabled}" required="false" label="#{msgs.lbl_estado_}">
+												<f:selectItem itemLabel="" itemValue="" />
+												<f:selectItems value="#{motoristaView.estados}" var="uf" itemLabel="#{uf.label}" itemValue="#{uf.value}" />
+											</p:selectOneMenu>
+										</div>
+									</div>																												
+									<!-- Inicio Endereço -->
+									<p:outputPanel id="endereco">
+										<div class="col-md-3">
+											<h:outputLabel value="#{msgs.lbl_cep}" for="lbl_cep" />
+											<div class="input-group input-group-sm">
+												<p:inputMask mask="99999-999" id="lbl_cep" value="#{motoristaView.bean.endereco.cep}" disabled="#{motoristaView.disabled}" required="false" label="#{msgs.lbl_cep}">
+													<p:ajax event="blur" update=":form:endereco" listener="#{motoristaView.handleBlurEventSearchCep}" oncomplete="config.tabChangeEvent();" />
+												</p:inputMask>
+												<span class="input-group-btn"> 
+													<p:commandButton value="" styleClass="btn btn-default btn-sm fa fa-binoculars" disabled="#{motoristaView.disabled}" immediate="true" modal="#singleDialogEndereco" /> 
+												</span>
+											</div>
+										</div>
+										<div class="col-md-8">
+											<h:outputLabel value="#{msgs.lbl_logradouro}" for="lbl_logradouro" />
+											<div class="input-group">
+												<div class="input-group-addon">
+													<i class="fa fa-bars"></i>
+												</div>
+												<p:inputText id="lbl_logradouro" maxlength="200" value="#{motoristaView.bean.endereco.logradouro}" disabled="#{motoristaView.disabled}" required="false" label="#{msgs.lbl_logradouro}" />
+											</div>
+										</div>
+										<div class="col-md-1">
+											<h:outputLabel value="#{msgs.lbl_numero}" for="lbl_numero" />
+											<div class="input-group">
+												<p:inputText id="lbl_numero" maxlength="7" value="#{motoristaView.bean.endereco.numero}" disabled="#{motoristaView.disabled}" required="false" label="#{msgs.lbl_numero}">
+													<pe:keyFilter regEx="/[0-9_]/i" />
+												</p:inputText>
+											</div>
+										</div>
+										<div class="col-md-6">
+											<h:outputLabel value="#{msgs.lbl_complemento}" for="lbl_complemento" />
+											<div class="input-group">
+												<div class="input-group-addon">
+													<i class="fa fa-bars"></i>
+												</div>
+												<p:inputText id="lbl_complemento" value="#{motoristaView.bean.endereco.complemento}" disabled="#{motoristaView.disabled}" required="false"
+													label="#{msgs.lbl_complemento}" />
+											</div>
+										</div>
+										<div class="col-md-5">
+											<h:outputLabel value="#{msgs.lbl_bairro}" for="lbl_bairro" />
+											<div class="input-group">
+												<div class="input-group-addon">
+													<i class="fa fa-bars"></i>
+												</div>
+												<p:inputText id="lbl_bairro" value="#{motoristaView.bean.endereco.bairro}" disabled="#{motoristaView.disabled}" required="false" label="#{msgs.lbl_bairro}" />
+											</div>
+										</div>
+										<div class="col-md-6">
+											<h:outputLabel value="#{msgs.lbl_cidade}" for="lbl_cidade" />
+											<div class="input-group">
+												<div class="input-group-addon">
+													<i class="fa fa-bars"></i>
+												</div>
+												<p:inputText id="lbl_cidade" value="#{motoristaView.bean.endereco.cidade}" disabled="#{motoristaView.disabled}" required="false" label="#{msgs.lbl_cidade}" />
+											</div>
+										</div>
+										<div class="col-md-3">
+											<h:outputLabel value="#{msgs.lbl_estado}" for="lbl_estado" />
+											<div class="input-group">
+												<p:selectOneMenu id="lbl_estado" value="#{motoristaView.bean.endereco.uf}" disabled="#{motoristaView.disabled}" required="false" label="#{msgs.lbl_estado}">
+													<f:selectItem itemLabel="" itemValue="" />
+													<f:selectItems value="#{motoristaView.estados}" var="uf" itemLabel="#{uf.label}" itemValue="#{uf.value}" />
+												</p:selectOneMenu>
+											</div>
+										</div>
+									</p:outputPanel>							
+									<!-- Fim Endereço -->
+									<!-- Inicio Dados Bancarios -->
+									<p:outputPanel id="bancario">
+										<div class="col-md-6">
+											<h:outputLabel value="#{msgs.lbl_banco}" for="lbl_banco" />
+											<div class="input-group input-group-sm">
+												<div class="input-group-addon">
+													<i class="fa fa-bank"></i>
+												</div>
+												<p:inputText id="lbl_banco" maxlength="3" value="#{motoristaView.bean.contaBancaria.agencia.banco.codigoNome}" disabled="true" required="false" label="#{msgs.lbl_banco}" />
+												<span class="input-group-btn"> 
+													<p:commandButton value="" styleClass="btn btn-default btn-sm fa fa-binoculars" disabled="#{motoristaView.disabled}" immediate="true" modal="#singleDialogAgencia" /> 
+												</span>
+											</div>
+										</div>
+										<div class="col-md-5">
+											<h:outputLabel value="#{msgs.lbl_agencia}" for="lbl_agencia" />
+											<div class="input-group input-group-sm">
+												<div class="input-group-addon">
+													<i class="fa fa-bank"></i>
+												</div>
+												<p:inputText id="lbl_agencia" maxlength="20" value="#{motoristaView.bean.contaBancaria.agencia.numero}" disabled="true" required="false" label="#{msgs.lbl_agencia}" />
+											</div>
+										</div>
+										<div class="col-md-1">
+											<h:outputLabel value="#{msgs.lbl_digito}" for="lbl_agencia_digito"></h:outputLabel>
+											<div class="input-group">
+												<p:inputText id="lbl_agencia_digito" maxlength="1" value="#{motoristaView.bean.contaBancaria.agencia.digito}" disabled="true" required="false" label="#{msgs.lbl_digito}" />
+											</div>
+										</div>
+										<div class="col-md-6">
+											<h:outputLabel value="#{msgs.lbl_conta}" for="lbl_conta" />
+											<div class="input-group input-group-sm">
+												<div class="input-group-addon">
+													<i class="fa fa-bank"></i>
+												</div>
+												<p:inputText id="lbl_conta" maxlength="20" value="#{motoristaView.bean.contaBancaria.conta}" disabled="#{motoristaView.disabled}" required="true" label="#{msgs.lbl_conta}">
+													<pe:keyFilter regEx="/[0-9_]/i" />
+												</p:inputText>
+											</div>
+										</div>
+										<div class="col-md-1">
+											<h:outputLabel value="#{msgs.lbl_digito}" for="lbl_conta_digito"></h:outputLabel>
+											<div class="input-group">
+												<p:inputText id="lbl_conta_digito" maxlength="1" value="#{motoristaView.bean.contaBancaria.digito}" disabled="#{motoristaView.disabled}" required="true" label="#{msgs.lbl_digito}">
+													<pe:keyFilter regEx="/[0-9_]/i" />
+												</p:inputText>
+											</div>
+										</div>
+										<div class="col-md-6">
+											<h:outputLabel value="#{msgs.lbl_titular}" for="lbl_titular" />
+											<div class="input-group">
+												<div class="input-group-addon">
+													<i class="fa fa-align-justify"></i>
+												</div>
+												<p:inputText id="lbl_titular" maxlength="100" value="#{motoristaView.bean.contaBancaria.nomeTitular}" disabled="#{motoristaView.disabled}" required="true" label="#{msgs.lbl_titular}" />
+											</div>
+										</div>
+										<div class="col-md-6">
+											<h:outputLabel value="#{msgs.lbl_cpf}" for="lbl_cpf" />
+											<div class="input-group">
+												<div class="input-group-addon">
+													<i class="fa fa-list-alt"></i>
+												</div>
+												<p:inputMask id="lbl_cpf" mask="999.999.999-99" value="#{motoristaView.bean.contaBancaria.cpfTitular}" disabled="#{motoristaView.disabled}" required="true" label="#{msgs.lbl_cpf}" />
+											</div>
+										</div>
+									</p:outputPanel>
+									<!-- Fim Dados Bancarios -->
+									<div class="col-md-6">
+										<h:outputLabel value="#{msgs.lbl_cnh}" for="lbl_cnh" />
+										<div class="input-group">
+											<div class="input-group-addon">
+												<i class="fa fa-bars"></i>
+											</div>
+											<p:inputText id="lbl_cnh" maxlength="20" value="#{motoristaView.bean.numeroCnh}" disabled="#{motoristaView.disabled}" required="false" label="#{msgs.lbl_cnh}"> 
+												<pe:keyFilter regEx="/[0-9_]/i" />
+											</p:inputText>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<h:outputLabel value="#{msgs.lbl_categoria}" for="lbl_categoria_" />
+										<div class="input-group">
+											<p:selectOneMenu id="lbl_categoria_" value="#{motoristaView.bean.categoriaCnh}" disabled="#{motoristaView.disabled}" required="false" label="#{msgs.lbl_categoria_}">
+												<f:selectItem itemLabel="" itemValue="" />
+												<f:selectItem itemLabel="A" itemValue="A" />
+												<f:selectItem itemLabel="B" itemValue="B" />
+												<f:selectItem itemLabel="C" itemValue="C" />
+												<f:selectItem itemLabel="D" itemValue="D" />
+												<f:selectItem itemLabel="E" itemValue="E" />
+												<f:selectItem itemLabel="AB" itemValue="AB" />
+												<f:selectItem itemLabel="AC" itemValue="AC" />
+												<f:selectItem itemLabel="AD" itemValue="AD" />
+												<f:selectItem itemLabel="AE" itemValue="AE" />
+											</p:selectOneMenu>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<h:outputLabel value="#{msgs.lbl_data_emissao}" for="lbl_data_emissao_cnh" />
+										<div class="input-group">
+											<div class="input-group-addon">
+												<i class="fa fa-calendar"></i>
+											</div>
+											<p:calendar id="lbl_data_emissao_cnh" value="#{motoristaView.bean.dataCnhEmissao}" disabled="#{motoristaView.disabled}" required="false" label="#{msgs.lbl_data_emissao}" pattern="dd/MM/yyyy" mask="true" />
+										</div>
+									</div>
+									<div class="col-md-6">
+										<h:outputLabel value="#{msgs.lbl_data_validade}" for="lbl_data_validade" />
+										<div class="input-group">
+											<div class="input-group-addon">
+												<i class="fa fa-calendar"></i>
+											</div>
+											<p:calendar id="lbl_data_validade" value="#{motoristaView.bean.dataCnhValidade}" disabled="#{motoristaView.disabled}" required="false" label="#{msgs.lbl_data_validade}" pattern="dd/MM/yyyy" mask="true" />
+										</div>
+									</div>
+									<div class="col-md-6">
+										<h:outputLabel value="#{msgs.lbl_seguradora} - #{msgs.lbl_data_liberacao_seguradora}" for="lbl_data_liberacao_seguradora" />
+										<div class="input-group">
+											<div class="input-group-addon">
+												<i class="fa fa-calendar"></i>
+											</div>
+											<p:calendar id="lbl_data_liberacao_seguradora" value="#{motoristaView.bean.dataLiberacaoSeguradora}" disabled="#{motoristaView.disabled}" required="false" label="#{msgs.lbl_data_liberacao_seguradora}" pattern="dd/MM/yyyy" mask="true" />
+										</div>
+									</div>
+									<div class="col-md-6">
+										<h:outputLabel value="#{msgs.lbl_seguradora} - #{msgs.lbl_data_liberacao_validade}" for="lbl_data_liberacao_validade" />
+										<div class="input-group">
+											<div class="input-group-addon">
+												<i class="fa fa-calendar"></i>
+											</div>
+											<p:calendar id="lbl_data_liberacao_validade" value="#{motoristaView.bean.dataLiberacaoValidade}" disabled="#{motoristaView.disabled}" required="false" label="#{msgs.lbl_data_liberacao_validade}" pattern="dd/MM/yyyy" mask="true" />
+										</div>
+									</div>
+									<div class="col-md-6">
+										<h:outputLabel value="#{msgs.lbl_crn_trc_antt}" for="lbl_crn_trc_antt" />
+										<div class="input-group">
+											<div class="input-group-addon">
+												<i class="fa fa-bars"></i>
+											</div>
+											<p:inputText id="lbl_crn_trc_antt" maxlength="30" value="#{motoristaView.bean.crntrcAntt}" disabled="#{motoristaView.disabled}" required="false" label="#{msgs.lbl_crn_trc_antt}" />
+										</div>
+									</div>
+									<div class="col-md-6">
+										<h:outputLabel value="#{msgs.lbl_data_crn_trc_antt_validade}" for="lbl_data_crn_trc_antt_validade" />
+										<div class="input-group">
+											<div class="input-group-addon">
+												<i class="fa fa-calendar"></i>
+											</div>
+											<p:calendar id="lbl_data_crn_trc_antt_validade" value="#{motoristaView.bean.dataCrntrcAnttValidade}" disabled="#{motoristaView.disabled}" required="false" label="#{msgs.lbl_data_crn_trc_antt_validade}" pattern="dd/MM/yyyy" mask="true" />
+										</div>
+									</div>									
+									<div class="col-md-6">
+										<h:outputLabel value="#{msgs.lbl_mopp}" for="lbl_mopp" />
+										<div class="input-group">
+											<div class="input-group-addon">
+												<i class="fa fa-bars"></i>
+											</div>
+											<p:inputText id="lbl_mopp" value="#{motoristaView.bean.mopp}" maxlength="30" disabled="#{motoristaView.disabled}" required="false" label="#{msgs.lbl_mopp}" />
+										</div>
+									</div>									
+									<div class="col-md-6">
+										<h:outputLabel value="#{msgs.lbl_data_validade}" for="lbl_data_validade_mopp" />
+										<div class="input-group">
+											<div class="input-group-addon">
+												<i class="fa fa-calendar"></i>
+											</div>
+											<p:calendar id="lbl_data_validade_mopp" value="#{motoristaView.bean.dataMoppValidade}" disabled="#{motoristaView.disabled}" required="false" label="#{msgs.lbl_data_validade}" pattern="dd/MM/yyyy" mask="true" />
+										</div>
+									</div>
+									<div class="col-md-6">
+										<h:outputLabel value="#{msgs.lbl_vitima_assalto}" for="lbl_vitima_assalto" />
+										<div class="input-group">
+											<p:selectOneMenu id="lbl_vitima_assalto" style="width: 255px;" value="#{motoristaView.bean.vitimaAssalto}" disabled="#{motoristaView.disabled}" required="true" label="#{msgs.lbl_vitima_assalto}">
+												<f:selectItem itemLabel="#{msgs.lbl_nao}" itemValue="N" />
+												<f:selectItem itemLabel="#{msgs.lbl_sim}" itemValue="S" />
+											</p:selectOneMenu>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<h:outputLabel value="#{msgs.lbl_sofreu_acidente}" for="lbl_sofreu_acidente" />
+										<div class="input-group">
+											<p:selectOneMenu id="lbl_sofreu_acidente" style="width: 255px;" value="#{motoristaView.bean.sofreuAcidente}" disabled="#{motoristaView.disabled}" required="true" label="#{msgs.lbl_sofreu_acidente}">
+												<f:selectItem itemLabel="#{msgs.lbl_nao}" itemValue="N" />
+												<f:selectItem itemLabel="#{msgs.lbl_sim}" itemValue="S" />
+											</p:selectOneMenu>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<h:outputLabel value="#{msgs.lbl_recolhe_ir}" for="lbl_recolhe_ir" />
+										<div class="input-group">
+											<p:selectOneMenu id="lbl_recolhe_ir" style="width: 255px;" value="#{motoristaView.bean.recolheIr}" disabled="#{motoristaView.disabled}" required="true" label="#{msgs.lbl_recolhe_ir}">
+												<f:selectItem itemLabel="#{msgs.lbl_nao}" itemValue="N" />
+												<f:selectItem itemLabel="#{msgs.lbl_sim}" itemValue="S" />
+											</p:selectOneMenu>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<h:outputLabel value="#{msgs.lbl_recolhe_inss}" for="lbl_recolhe_inss" />
+										<div class="input-group">
+											<p:selectOneMenu id="lbl_recolhe_inss" style="width: 255px;" value="#{motoristaView.bean.recolheInss}" disabled="#{motoristaView.disabled}" required="true" label="#{msgs.lbl_recolhe_inss}">
+												<f:selectItem itemLabel="#{msgs.lbl_nao}" itemValue="N" />
+												<f:selectItem itemLabel="#{msgs.lbl_sim}" itemValue="S" />
+											</p:selectOneMenu>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<h:outputLabel value="#{msgs.lbl_recolhe_sest_senat}" for="lbl_recolhe_sest_senat" />
+										<div class="input-group">
+											<p:selectOneMenu id="lbl_recolhe_sest_senat" style="width: 255px;" value="#{motoristaView.bean.recolheSestSenat}" disabled="#{motoristaView.disabled}" required="true" label="#{msgs.lbl_recolhe_sest_senat}">
+												<f:selectItem itemLabel="#{msgs.lbl_nao}" itemValue="N" />
+												<f:selectItem itemLabel="#{msgs.lbl_sim}" itemValue="S" />
+											</p:selectOneMenu>
+										</div>
+									</div>
+									<div class="col-md-12">
+										<div class="input-group">
+											<br/><br/>
+											<h:form enctype="multipart/form-data">
+												<p:fileUpload value="#{motoristaView.file}" label="#{msgs.lbl_upload_imagem}" mode="simple" skinSimple="false" rendered="#{!motoristaView.disabled}" />
+											</h:form>
+										</div>
+									</div>										
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<util:formButtons view="#{motoristaView}" />
+
+			</section>
+
+		</h:form>
+
+	</ui:define>
+	<ui:define name="dialogs">
+		<ui:include src="/cadastro/dialog/enderecoDialog.xhtml">
+			<ui:param name="title" value="#{msgs.tit_endereco}" />
+			<ui:param name="nameDialog" value="singleDialogEndereco" />
+			<ui:param name="update" value=":form:endereco" />
+			<ui:param name="addOnBeanView" value="#{enderecoView}" />
+			<ui:param name="receiveBeanView" value="#{motoristaView}" />
+		</ui:include>
+		<ui:include src="/cadastro/dialog/agenciaDialog.xhtml">
+			<ui:param name="title" value="#{msgs.tit_agencia}" />
+			<ui:param name="nameDialog" value="singleDialogAgencia" />
+			<ui:param name="update" value=":form:bancario" />
+			<ui:param name="addOnBeanView" value="#{agenciaView}" />
+			<ui:param name="receiveBeanView" value="#{motoristaView}" />
+		</ui:include>
+	</ui:define>
+</ui:composition>
